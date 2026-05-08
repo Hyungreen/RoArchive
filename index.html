@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>노카이브 — RoArchive</title>
+  <style>
+    @font-face { font-family: '오복상회'; src: url('fonts/오복상회R.ttf') format('truetype'); font-weight: 400; }
+    @font-face { font-family: '오복상회'; src: url('fonts/오복상회L.ttf') format('truetype'); font-weight: 300; }
+
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕1.ttf') format('truetype'); font-weight: 100; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕2.ttf') format('truetype'); font-weight: 200; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕3.ttf') format('truetype'); font-weight: 300; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕4.ttf') format('truetype'); font-weight: 400; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕5.ttf') format('truetype'); font-weight: 500; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕6.ttf') format('truetype'); font-weight: 700; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕7.ttf') format('truetype'); font-weight: 900; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #F2EAD8;
+      --paper:   #FBF6EC;
+      --ink:     #2C1E14;
+      --mid:     #7A5C44;
+      --faint:   #B09880;
+      --rule:    #DDD0B8;
+    }
+
+    body {
+      font-family: '드림고딕', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      padding: 0 0 80px;
+      /* coarse paper texture */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+    }
+
+    /* ─── HEADER ─── */
+    .header-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 56px 32px 0;
+      position: relative;
+    }
+
+    /* big decorative stamp circle */
+    .stamp {
+      position: absolute;
+      top: 42px; right: 32px;
+      width: 88px; height: 88px;
+      border: 3px solid var(--faint);
+      border-radius: 50%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transform: rotate(12deg);
+      gap: 2px;
+      opacity: 0.55;
+    }
+    .stamp-top {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+    .stamp-year {
+      font-family: '드림고딕', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--mid);
+      line-height: 1;
+    }
+    .stamp-bottom {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--mid);
+    }
+
+    .header-label {
+      font-family: '오복상회', 'Caveat', cursive;
+      font-size: 0.9rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 8px;
+    }
+
+    .header-title {
+      font-family: '오복상회', 'Noto Serif KR', serif;
+      font-size: clamp(3rem, 8vw, 5.2rem);
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 0.95;
+      letter-spacing: 0.01em;
+    }
+
+    .header-title .accent { color: #B5622A; }
+
+    .header-en {
+      font-family: '오복상회', 'Caveat', cursive;
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      font-weight: 700;
+      color: var(--mid);
+      letter-spacing: 0.12em;
+      margin-top: 6px;
+    }
+
+    /* ruled lines under title */
+    .ruled {
+      margin-top: 22px;
+      border: none;
+      border-top: 1.5px solid var(--rule);
+      position: relative;
+    }
+    .ruled + .ruled { margin-top: 8px; border-top-width: 1px; opacity: 0.5; }
+
+    .header-sub-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .date-pill {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 1rem;
+      color: var(--mid);
+      background: transparent;
+      border: 1.5px dashed var(--rule);
+      border-radius: 4px;
+      padding: 3px 14px 1px;
+    }
+
+    .tagline {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 1.05rem;
+      color: var(--faint);
+    }
+
+    /* ─── BOARD ─── */
+    .board {
+      max-width: 860px;
+      margin: 48px auto 0;
+      padding: 0 32px;
+      display: grid;
+      /* 2 + 3 layout */
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: auto auto;
+      gap: 20px;
+    }
+
+    /* ─── CARD BASE ─── */
+    .card {
+      background: var(--paper);
+      border-radius: 3px;
+      padding: 28px 24px 24px;
+      position: relative;
+      text-decoration: none;
+      display: block;
+      color: inherit;
+      cursor: pointer;
+      /* subtle page shadow */
+      box-shadow:
+        1px 1px 0 #d9cdb7,
+        2px 2px 0 #cfc3aa,
+        3px 3px 0 #c5b99e,
+        4px 5px 18px rgba(60,30,10,0.13);
+      transition: transform 0.25s cubic-bezier(.22,1,.36,1),
+                  box-shadow 0.25s cubic-bezier(.22,1,.36,1);
+    }
+
+    .card:hover {
+      transform: translateY(-6px) scale(1.015);
+      box-shadow:
+        1px 1px 0 #d9cdb7,
+        2px 2px 0 #cfc3aa,
+        6px 10px 32px rgba(60,30,10,0.2);
+    }
+
+    /* tape strip at top */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1deg);
+      width: 52px; height: 22px;
+      background: rgba(210, 185, 140, 0.55);
+      border-radius: 2px;
+    }
+
+    /* slight rotation per card — overridden individually */
+    .card-cal     { grid-column: span 3; transform: rotate(-0.6deg); }
+    .card-gather  { grid-column: span 3; transform: rotate(0.5deg); }
+    .card-note    { grid-column: span 2; transform: rotate(-0.8deg); }
+    .card-gallery { grid-column: span 2; transform: rotate(0.7deg); }
+    .card-tree    { grid-column: span 2; transform: rotate(-0.4deg); }
+
+    .card-cal:hover     { transform: translateY(-6px) rotate(-0.6deg) scale(1.015); }
+    .card-gather:hover  { transform: translateY(-6px) rotate(0.5deg)  scale(1.015); }
+    .card-note:hover    { transform: translateY(-6px) rotate(-0.8deg) scale(1.015); }
+    .card-gallery:hover { transform: translateY(-6px) rotate(0.7deg)  scale(1.015); }
+    .card-tree:hover    { transform: translateY(-6px) rotate(-0.4deg) scale(1.015); }
+
+    /* left color tab */
+    .card::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 16px; bottom: 16px;
+      width: 4px;
+      border-radius: 0 2px 2px 0;
+      background: var(--c, #B5622A);
+    }
+
+    .card-cal     { --c: #C96B2E; }
+    .card-gather  { --c: #5E9460; }
+    .card-note    { --c: #4D7FA8; }
+    .card-gallery { --c: #B56070; }
+    .card-tree    { --c: #7A6840; }
+
+    .card-icon {
+      font-size: 2rem;
+      line-height: 1;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .card-kr {
+      font-family: '드림고딕', sans-serif;
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 1px;
+    }
+
+    .card-en {
+      font-family: '드림고딕', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--c, #B5622A);
+      letter-spacing: 0.06em;
+      margin-bottom: 11px;
+    }
+
+    .card-desc {
+      font-size: 0.79rem;
+      line-height: 1.7;
+      color: var(--mid);
+      font-weight: 300;
+    }
+
+    /* hand-drawn underline on card-kr */
+    .card-kr-wrap {
+      display: inline-block;
+      position: relative;
+      margin-bottom: 2px;
+    }
+    .card-kr-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 2px;
+      background: var(--c, #B5622A);
+      border-radius: 2px;
+      opacity: 0.35;
+      transform: rotate(-0.5deg);
+    }
+
+    /* ─── PAGE HOLE PUNCH ─── */
+    .hole {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1.5px solid var(--rule);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      max-width: 860px;
+      margin: 52px auto 0;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .footer-line { flex: 1; height: 1px; background: var(--rule); }
+    .footer-text {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.95rem;
+      color: var(--faint);
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      .board { grid-template-columns: 1fr 1fr; padding: 0 16px; }
+      .card-cal, .card-gather { grid-column: span 2; }
+      .card-note, .card-gallery, .card-tree { grid-column: span 1; }
+      .header-wrap { padding: 40px 16px 0; }
+      .stamp { top: 36px; right: 16px; width: 70px; height: 70px; }
+    }
+    @media (max-width: 420px) {
+      .board { grid-template-columns: 1fr; }
+      .card-cal, .card-gather, .card-note, .card-gallery, .card-tree { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <div class="header-wrap">
+
+    <div class="stamp">
+      <span class="stamp-top">Family</span>
+      <span class="stamp-year" id="stamp-year"></span>
+      <span class="stamp-bottom">Archive</span>
+    </div>
+
+    <p class="header-label">노가네 가족 기록</p>
+    <h1 class="header-title"><span class="accent">노</span>카이브</h1>
+    <p class="header-en">RoArchive</p>
+    <hr class="ruled" />
+    <hr class="ruled" />
+
+    <div class="header-sub-row">
+      <span class="date-pill" id="today-date"></span>
+      <span class="tagline">우리의 기록이 쌓여가는 공간 ✦</span>
+    </div>
+
+  </div>
+
+  <!-- ── BOARD ── -->
+  <div class="board">
+
+    <a class="card card-cal" href="rocalendar.html">
+      <div class="hole"></div>
+      <span class="card-icon">📅</span>
+      <p class="card-kr-wrap"><span class="card-kr">노캘린더</span></p>
+      <p class="card-en">RoCalendar</p>
+      <p class="card-desc">가족 모두의 일정을 한눈에.<br>생일, 기념일, 소소한 약속까지.</p>
+    </a>
+
+    <a class="card card-gather" href="#" onclick="return false;">
+      <div class="hole"></div>
+      <span class="card-icon">👨‍👩‍👧</span>
+      <p class="card-kr-wrap"><span class="card-kr">노게더</span></p>
+      <p class="card-en">RoGather</p>
+      <p class="card-desc">함께한 모임의 순간들.<br>누가 왔고, 뭘 먹고, 뭘 웃었는지.</p>
+    </a>
+
+    <a class="card card-note" href="#" onclick="return false;">
+      <div class="hole"></div>
+      <span class="card-icon">📝</span>
+      <p class="card-kr-wrap"><span class="card-kr">노노트</span></p>
+      <p class="card-en">RoNote</p>
+      <p class="card-desc">일상의 메모, 생각, 하고 싶은 말들.</p>
+    </a>
+
+    <a class="card card-gallery" href="#" onclick="return false;">
+      <div class="hole"></div>
+      <span class="card-icon">📸</span>
+      <p class="card-kr-wrap"><span class="card-kr">노갤러리</span></p>
+      <p class="card-en">RoGallery</p>
+      <p class="card-desc">소중한 사진과 추억의 앨범.</p>
+    </a>
+
+    <a class="card card-tree" href="#" onclick="return false;">
+      <div class="hole"></div>
+      <span class="card-icon">🌳</span>
+      <p class="card-kr-wrap"><span class="card-kr">노트리</span></p>
+      <p class="card-en">RoTree</p>
+      <p class="card-desc">노가네 가족 관계도와 족보.</p>
+    </a>
+
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-line"></div>
+    <span class="footer-text">RoArchive · 노가네 가족 아카이브</span>
+    <div class="footer-line"></div>
+  </footer>
+
+  <script>
+    const now = new Date();
+    const yr = now.getFullYear();
+    document.getElementById('stamp-year').textContent = yr;
+    document.getElementById('today-date').textContent =
+      now.toLocaleDateString('ko-KR', { year:'numeric', month:'long', day:'numeric', weekday:'short' });
+  </script>
+
+</body>
+</html>

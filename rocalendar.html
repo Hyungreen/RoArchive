@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>노캘린더 — RoCalendar</title>
+  <style>
+    @font-face { font-family: '오복상회'; src: url('fonts/오복상회R.ttf') format('truetype'); font-weight: 400; }
+    @font-face { font-family: '오복상회'; src: url('fonts/오복상회L.ttf') format('truetype'); font-weight: 300; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕1.ttf') format('truetype'); font-weight: 100; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕2.ttf') format('truetype'); font-weight: 200; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕3.ttf') format('truetype'); font-weight: 300; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕4.ttf') format('truetype'); font-weight: 400; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕5.ttf') format('truetype'); font-weight: 500; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕6.ttf') format('truetype'); font-weight: 700; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕7.ttf') format('truetype'); font-weight: 900; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #F2EAD8;
+      --paper:   #FBF6EC;
+      --ink:     #2C1E14;
+      --mid:     #7A5C44;
+      --faint:   #B09880;
+      --rule:    #DDD0B8;
+      --accent:  #C96B2E;
+    }
+
+    body {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 400;
+      background: var(--bg);
+      min-height: 100vh;
+      padding-bottom: 80px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 32px 0;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .back-btn {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.82rem;
+      color: var(--faint);
+      text-decoration: none;
+      border: 1.5px dashed var(--rule);
+      border-radius: 4px;
+      padding: 4px 12px;
+      transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+    .back-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+    .topbar-title {
+      font-family: '오복상회', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--ink);
+      letter-spacing: 0.02em;
+    }
+
+    .topbar-en {
+      font-family: '오복상회', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--faint);
+      letter-spacing: 0.12em;
+    }
+
+    /* ── MONTH NAV ── */
+    .month-nav {
+      max-width: 900px;
+      margin: 28px auto 0;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-btn {
+      background: none;
+      border: 1.5px solid var(--rule);
+      border-radius: 4px;
+      width: 36px; height: 36px;
+      cursor: pointer;
+      font-size: 1rem;
+      color: var(--mid);
+      transition: border-color 0.2s, color 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .month-label {
+      text-align: center;
+    }
+    .month-label-year {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.85rem;
+      color: var(--faint);
+      letter-spacing: 0.1em;
+    }
+    .month-label-month {
+      font-family: '오복상회', sans-serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+
+    /* ── CALENDAR ── */
+    .cal-wrap {
+      max-width: 900px;
+      margin: 20px auto 0;
+      padding: 0 32px;
+    }
+
+    .cal-paper {
+      background: var(--paper);
+      border-radius: 3px;
+      box-shadow:
+        1px 1px 0 #d9cdb7,
+        2px 2px 0 #cfc3aa,
+        3px 3px 0 #c5b99e,
+        4px 5px 18px rgba(60,30,10,0.12);
+      padding: 24px;
+    }
+
+    .cal-dow {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 6px;
+    }
+    .cal-dow span {
+      text-align: center;
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.72rem;
+      color: var(--faint);
+      padding: 4px 0;
+      letter-spacing: 0.06em;
+    }
+    .cal-dow span:first-child { color: #C0705A; }
+    .cal-dow span:last-child  { color: #5A7AC0; }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+
+    .cal-day {
+      min-height: 80px;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      padding: 6px 8px 4px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .cal-day:hover { background: rgba(201,107,46,0.06); border-color: var(--rule); }
+    .cal-day.empty { cursor: default; pointer-events: none; }
+    .cal-day.today .day-num {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      width: 24px; height: 24px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700;
+    }
+    .cal-day.sunday .day-num { color: #C0705A; }
+    .cal-day.saturday .day-num { color: #5A7AC0; }
+
+    .day-num {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 500;
+      font-size: 0.82rem;
+      color: var(--ink);
+      margin-bottom: 4px;
+      width: 24px; height: 24px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .day-events {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .event-chip {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      line-height: 1.3;
+      padding: 1px 5px;
+      border-radius: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #fff;
+      cursor: pointer;
+    }
+    .event-chip:hover { opacity: 0.85; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(44, 30, 20, 0.35);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--paper);
+      border-radius: 4px;
+      padding: 32px 28px 24px;
+      width: 380px;
+      max-width: 90vw;
+      box-shadow: 4px 6px 28px rgba(60,30,10,0.25);
+      position: relative;
+    }
+    /* tape on modal */
+    .modal::before {
+      content: '';
+      position: absolute;
+      top: -11px; left: 50%;
+      transform: translateX(-50%) rotate(-1deg);
+      width: 52px; height: 22px;
+      background: rgba(210, 185, 140, 0.55);
+      border-radius: 2px;
+    }
+
+    .modal-date {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.8rem;
+      color: var(--faint);
+      margin-bottom: 4px;
+    }
+    .modal-title {
+      font-family: '오복상회', sans-serif;
+      font-size: 1.3rem;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+
+    .modal label {
+      display: block;
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.78rem;
+      color: var(--mid);
+      margin-bottom: 5px;
+      margin-top: 14px;
+    }
+    .modal label:first-of-type { margin-top: 0; }
+
+    .modal input[type="text"],
+    .modal input[type="time"],
+    .modal textarea {
+      width: 100%;
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.85rem;
+      color: var(--ink);
+      background: var(--bg);
+      border: 1.5px solid var(--rule);
+      border-radius: 3px;
+      padding: 8px 10px;
+      outline: none;
+      transition: border-color 0.2s;
+      resize: none;
+    }
+    .modal input:focus,
+    .modal textarea:focus { border-color: var(--accent); }
+
+    .color-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .color-dot {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.15s;
+    }
+    .color-dot:hover { transform: scale(1.2); }
+    .color-dot.selected { border-color: var(--ink); transform: scale(1.15); }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .btn-save {
+      flex: 1;
+      font-family: '드림고딕', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      padding: 10px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-save:hover { opacity: 0.85; }
+    .btn-cancel {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.85rem;
+      background: none;
+      color: var(--faint);
+      border: 1.5px solid var(--rule);
+      border-radius: 3px;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .btn-cancel:hover { color: var(--ink); }
+
+    /* event detail modal */
+    .detail-event-title {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .detail-event-time {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.82rem;
+      color: var(--mid);
+      margin-bottom: 4px;
+    }
+    .detail-event-memo {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.82rem;
+      color: var(--mid);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .btn-delete {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.82rem;
+      background: none;
+      color: #C07070;
+      border: 1.5px solid #D0A0A0;
+      border-radius: 3px;
+      padding: 8px 14px;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+    .btn-delete:hover { background: #FFF0F0; }
+
+    .event-list { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+    .event-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 10px;
+      background: var(--bg);
+      border-radius: 3px;
+      border: 1px solid var(--rule);
+    }
+    .event-item-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .event-item-body { flex: 1; min-width: 0; }
+    .event-item-delete {
+      background: none;
+      border: none;
+      color: var(--faint);
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 0 2px;
+      flex-shrink: 0;
+    }
+    .event-item-delete:hover { color: #C07070; }
+    .btn-add-more {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.8rem;
+      background: none;
+      border: 1.5px dashed var(--rule);
+      color: var(--faint);
+      border-radius: 3px;
+      padding: 7px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .btn-add-more:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── SUMMARY ── */
+    .summary-wrap {
+      max-width: 900px;
+      margin: 24px auto 0;
+      padding: 0 32px;
+    }
+
+    .summary-paper {
+      background: var(--paper);
+      border-radius: 3px;
+      box-shadow:
+        1px 1px 0 #d9cdb7,
+        2px 2px 0 #cfc3aa,
+        3px 4px 14px rgba(60,30,10,0.10);
+      padding: 20px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .summary-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 80px;
+    }
+    .summary-stat-num {
+      font-family: '오복상회', sans-serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .summary-stat-label {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.75rem;
+      color: var(--faint);
+    }
+
+    .summary-divider {
+      width: 1px;
+      align-self: stretch;
+      background: var(--rule);
+      flex-shrink: 0;
+    }
+
+    .summary-months {
+      flex: 1;
+      min-width: 200px;
+    }
+    .summary-months-label {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.72rem;
+      color: var(--faint);
+      margin-bottom: 8px;
+      letter-spacing: 0.06em;
+    }
+    .month-strip {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .month-pip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      padding: 4px 3px;
+      border-radius: 3px;
+      transition: background 0.15s;
+      min-width: 28px;
+    }
+    .month-pip:hover { background: rgba(201,107,46,0.08); }
+    .month-pip.active .pip-name { color: var(--accent); font-weight: 500; }
+    .pip-name {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.65rem;
+      color: var(--faint);
+    }
+    .pip-dots {
+      display: flex;
+      gap: 2px;
+      min-height: 7px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 28px;
+    }
+    .pip-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .pip-empty {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--rule);
+      flex-shrink: 0;
+    }
+
+    .summary-next {
+      flex: 1;
+      min-width: 160px;
+    }
+    .summary-next-label {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.72rem;
+      color: var(--faint);
+      margin-bottom: 8px;
+      letter-spacing: 0.06em;
+    }
+    .next-event-date {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.75rem;
+      color: var(--mid);
+      margin-bottom: 2px;
+    }
+    .next-event-title {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+    .next-event-empty {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.82rem;
+      color: var(--rule);
+    }
+
+    /* footer */
+    footer {
+      max-width: 900px;
+      margin: 40px auto 0;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .footer-line { flex: 1; height: 1px; background: var(--rule); }
+    .footer-text {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 300;
+      font-size: 0.82rem;
+      color: var(--faint);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .cal-wrap, .month-nav, .topbar { padding-left: 16px; padding-right: 16px; }
+      .cal-day { min-height: 56px; padding: 4px; }
+      .day-num { font-size: 0.75rem; }
+      .event-chip { display: none; }
+      .cal-day.has-event::after {
+        content: '';
+        display: block;
+        width: 5px; height: 5px;
+        border-radius: 50%;
+        background: var(--accent);
+        margin: 2px auto 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a class="back-btn" href="index.html">← 노카이브</a>
+    <div>
+      <div class="topbar-title">📅 노캘린더</div>
+      <div class="topbar-en">RoCalendar</div>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-wrap">
+    <div class="summary-paper">
+      <div class="summary-stat">
+        <span class="summary-stat-num" id="sum-total">0</span>
+        <span class="summary-stat-label">2026년 전체 일정</span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-months">
+        <div class="summary-months-label">월별 현황</div>
+        <div class="month-strip" id="month-strip"></div>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-next">
+        <div class="summary-next-label">다음 일정</div>
+        <div id="next-event-box"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MONTH NAV -->
+  <div class="month-nav">
+    <button class="nav-btn" id="prev-btn">‹</button>
+    <div class="month-label">
+      <div class="month-label-year" id="label-year"></div>
+      <div class="month-label-month" id="label-month"></div>
+    </div>
+    <button class="nav-btn" id="next-btn">›</button>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="cal-wrap">
+    <div class="cal-paper">
+      <div class="cal-dow">
+        <span>일</span><span>월</span><span>화</span><span>수</span>
+        <span>목</span><span>금</span><span>토</span>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-line"></div>
+    <span class="footer-text">RoArchive · 노캘린더</span>
+    <div class="footer-line"></div>
+  </footer>
+
+  <!-- ADD EVENT MODAL -->
+  <div class="modal-overlay" id="add-modal">
+    <div class="modal">
+      <div class="modal-date" id="modal-date-label"></div>
+      <div class="modal-title">일정 추가</div>
+      <label>일정 이름</label>
+      <input type="text" id="event-title" placeholder="예: 가족 외식, 엄마 생일" maxlength="30" />
+      <label>시간 (선택)</label>
+      <input type="time" id="event-time" />
+      <label>메모 (선택)</label>
+      <textarea id="event-memo" rows="2" placeholder="짧은 메모를 남겨요"></textarea>
+      <label>색상</label>
+      <div class="color-row" id="color-row"></div>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="add-cancel">취소</button>
+        <button class="btn-save" id="add-save">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW EVENTS MODAL -->
+  <div class="modal-overlay" id="view-modal">
+    <div class="modal">
+      <div class="modal-date" id="view-date-label"></div>
+      <div class="modal-title" id="view-month-day"></div>
+      <div class="event-list" id="event-list"></div>
+      <button class="btn-add-more" id="view-add-btn">+ 일정 추가</button>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="view-close" style="width:100%">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const COLORS = [
+      '#C96B2E', '#5E9460', '#4D7FA8',
+      '#B56070', '#7A6840', '#8A6BAA'
+    ];
+
+    // storage key
+    const STORE = 'roarchive_calendar';
+
+    function loadEvents() {
+      try { return JSON.parse(localStorage.getItem(STORE) || '{}'); }
+      catch { return {}; }
+    }
+    function saveEvents(data) {
+      localStorage.setItem(STORE, JSON.stringify(data));
+    }
+
+    // state
+    const today = new Date();
+    let cur = { year: 2026, month: 0 }; // Jan 2026
+
+    // set to current month if we're in 2026
+    if (today.getFullYear() === 2026) {
+      cur.month = today.getMonth();
+    }
+
+    const MONTHS = ['1월','2월','3월','4월','5월','6월',
+                    '7월','8월','9월','10월','11월','12월'];
+
+    function dateKey(y, m, d) {
+      return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    }
+
+    function renderCalendar() {
+      const { year, month } = cur;
+      document.getElementById('label-year').textContent = year + '년';
+      document.getElementById('label-month').textContent = MONTHS[month];
+
+      const grid = document.getElementById('cal-grid');
+      grid.innerHTML = '';
+
+      const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const events = loadEvents();
+
+      // empty cells
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('div');
+        empty.className = 'cal-day empty';
+        grid.appendChild(empty);
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const cell = document.createElement('div');
+        const dow = (firstDay + d - 1) % 7;
+        cell.className = 'cal-day';
+        if (dow === 0) cell.classList.add('sunday');
+        if (dow === 6) cell.classList.add('saturday');
+
+        const isToday = (today.getFullYear() === year &&
+                         today.getMonth() === month &&
+                         today.getDate() === d);
+        if (isToday) cell.classList.add('today');
+
+        const key = dateKey(year, month, d);
+        const dayEvents = events[key] || [];
+        if (dayEvents.length > 0) cell.classList.add('has-event');
+
+        const numEl = document.createElement('div');
+        numEl.className = 'day-num';
+        numEl.textContent = d;
+        cell.appendChild(numEl);
+
+        const evWrap = document.createElement('div');
+        evWrap.className = 'day-events';
+        const showCount = Math.min(dayEvents.length, 3);
+        for (let e = 0; e < showCount; e++) {
+          const ev = dayEvents[e];
+          const chip = document.createElement('div');
+          chip.className = 'event-chip';
+          chip.style.background = ev.color || COLORS[0];
+          chip.textContent = (ev.time ? ev.time + ' ' : '') + ev.title;
+          chip.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openViewModal(year, month, d);
+          });
+          evWrap.appendChild(chip);
+        }
+        if (dayEvents.length > 3) {
+          const more = document.createElement('div');
+          more.className = 'event-chip';
+          more.style.background = 'var(--faint)';
+          more.textContent = `+${dayEvents.length - 3}개 더`;
+          evWrap.appendChild(more);
+        }
+        cell.appendChild(evWrap);
+
+        cell.addEventListener('click', () => openViewModal(year, month, d));
+        grid.appendChild(cell);
+      }
+    }
+
+    // ── ADD MODAL ──
+    let addTarget = null;
+    let selectedColor = COLORS[0];
+
+    function setupColorRow() {
+      const row = document.getElementById('color-row');
+      row.innerHTML = '';
+      COLORS.forEach((c, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'color-dot' + (i === 0 ? ' selected' : '');
+        dot.style.background = c;
+        dot.dataset.color = c;
+        dot.addEventListener('click', () => {
+          document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('selected'));
+          dot.classList.add('selected');
+          selectedColor = c;
+        });
+        row.appendChild(dot);
+      });
+      selectedColor = COLORS[0];
+    }
+
+    function openAddModal(year, month, day) {
+      addTarget = { year, month, day };
+      document.getElementById('modal-date-label').textContent =
+        `${year}년 ${MONTHS[month]} ${day}일`;
+      document.getElementById('event-title').value = '';
+      document.getElementById('event-time').value = '';
+      document.getElementById('event-memo').value = '';
+      setupColorRow();
+      document.getElementById('add-modal').classList.add('open');
+      setTimeout(() => document.getElementById('event-title').focus(), 100);
+    }
+
+    document.getElementById('add-cancel').addEventListener('click', () => {
+      document.getElementById('add-modal').classList.remove('open');
+    });
+
+    document.getElementById('add-save').addEventListener('click', () => {
+      const title = document.getElementById('event-title').value.trim();
+      if (!title) { document.getElementById('event-title').focus(); return; }
+      const time  = document.getElementById('event-time').value;
+      const memo  = document.getElementById('event-memo').value.trim();
+      const { year, month, day } = addTarget;
+      const key = dateKey(year, month, day);
+      const events = loadEvents();
+      if (!events[key]) events[key] = [];
+      events[key].push({ title, time, memo, color: selectedColor, id: Date.now() });
+      // sort by time
+      events[key].sort((a, b) => (a.time || '99:99').localeCompare(b.time || '99:99'));
+      saveEvents(events);
+      document.getElementById('add-modal').classList.remove('open');
+      renderCalendar();
+      renderSummary();
+    });
+
+    // close on overlay click
+    document.getElementById('add-modal').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('open');
+    });
+
+    // ── VIEW MODAL ──
+    function openViewModal(year, month, day) {
+      const key = dateKey(year, month, day);
+      const events = loadEvents();
+      const dayEvents = events[key] || [];
+
+      document.getElementById('view-date-label').textContent =
+        `${year}년 ${MONTHS[month]} ${day}일`;
+      document.getElementById('view-month-day').textContent =
+        dayEvents.length > 0 ? `${dayEvents.length}개의 일정` : '일정이 없어요';
+
+      const list = document.getElementById('event-list');
+      list.innerHTML = '';
+
+      dayEvents.forEach((ev) => {
+        const item = document.createElement('div');
+        item.className = 'event-item';
+
+        const dot = document.createElement('div');
+        dot.className = 'event-item-dot';
+        dot.style.background = ev.color || COLORS[0];
+
+        const body = document.createElement('div');
+        body.className = 'event-item-body';
+        body.innerHTML = `<div class="detail-event-title">${ev.title}</div>` +
+          (ev.time ? `<div class="detail-event-time">⏰ ${ev.time}</div>` : '') +
+          (ev.memo ? `<div class="detail-event-memo">${ev.memo}</div>` : '');
+
+        const del = document.createElement('button');
+        del.className = 'event-item-delete';
+        del.textContent = '✕';
+        del.title = '삭제';
+        del.addEventListener('click', () => {
+          const evs = loadEvents();
+          evs[key] = (evs[key] || []).filter(e => e.id !== ev.id);
+          if (evs[key].length === 0) delete evs[key];
+          saveEvents(evs);
+          openViewModal(year, month, day);
+          renderCalendar();
+          renderSummary();
+        });
+
+        item.appendChild(dot);
+        item.appendChild(body);
+        item.appendChild(del);
+        list.appendChild(item);
+      });
+
+      document.getElementById('view-modal').classList.add('open');
+
+      document.getElementById('view-add-btn').onclick = () => {
+        document.getElementById('view-modal').classList.remove('open');
+        openAddModal(year, month, day);
+      };
+    }
+
+    document.getElementById('view-close').addEventListener('click', () => {
+      document.getElementById('view-modal').classList.remove('open');
+    });
+    document.getElementById('view-modal').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('open');
+    });
+
+    // ── NAV ──
+    document.getElementById('prev-btn').addEventListener('click', () => {
+      cur.month--;
+      if (cur.month < 0) { cur.month = 11; cur.year--; }
+      renderCalendar();
+    });
+    document.getElementById('next-btn').addEventListener('click', () => {
+      cur.month++;
+      if (cur.month > 11) { cur.month = 0; cur.year++; }
+      renderCalendar();
+    });
+
+    // enter to save
+    document.getElementById('event-title').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('add-save').click();
+    });
+
+    // ── SUMMARY ──
+    function renderSummary() {
+      const events = loadEvents();
+      const MONTHS_SHORT = ['1월','2월','3월','4월','5월','6월',
+                            '7월','8월','9월','10월','11월','12월'];
+
+      // total 2026 events
+      let total = 0;
+      const monthCounts = Array(12).fill(0);
+      const monthColors = Array.from({length:12}, () => []);
+
+      Object.entries(events).forEach(([key, evArr]) => {
+        const [y, m] = key.split('-').map(Number);
+        if (y !== 2026) return;
+        total += evArr.length;
+        monthCounts[m - 1] += evArr.length;
+        evArr.forEach(ev => { if (ev.color) monthColors[m-1].push(ev.color); });
+      });
+
+      document.getElementById('sum-total').textContent = total;
+
+      // month strip
+      const strip = document.getElementById('month-strip');
+      strip.innerHTML = '';
+      MONTHS_SHORT.forEach((name, i) => {
+        const pip = document.createElement('div');
+        pip.className = 'month-pip' + (i === cur.month ? ' active' : '');
+        pip.innerHTML = `<span class="pip-name">${name}</span>`;
+        const dotsWrap = document.createElement('div');
+        dotsWrap.className = 'pip-dots';
+        if (monthCounts[i] === 0) {
+          const empty = document.createElement('div');
+          empty.className = 'pip-empty';
+          dotsWrap.appendChild(empty);
+        } else {
+          const show = Math.min(monthCounts[i], 4);
+          const colors = monthColors[i];
+          for (let d = 0; d < show; d++) {
+            const dot = document.createElement('div');
+            dot.className = 'pip-dot';
+            dot.style.background = colors[d] || 'var(--accent)';
+            dotsWrap.appendChild(dot);
+          }
+        }
+        pip.appendChild(dotsWrap);
+        pip.addEventListener('click', () => {
+          cur.year = 2026; cur.month = i;
+          renderCalendar();
+          renderSummary();
+        });
+        strip.appendChild(pip);
+      });
+
+      // next upcoming event (from today)
+      const box = document.getElementById('next-event-box');
+      const todayStr = dateKey(today.getFullYear(), today.getMonth(), today.getDate());
+      let nextKey = null, nextEv = null;
+      const sortedKeys = Object.keys(events)
+        .filter(k => k >= todayStr)
+        .sort();
+      for (const k of sortedKeys) {
+        if (events[k] && events[k].length > 0) {
+          nextKey = k; nextEv = events[k][0]; break;
+        }
+      }
+      if (nextEv && nextKey) {
+        const [y, m, d] = nextKey.split('-').map(Number);
+        box.innerHTML = `
+          <div class="next-event-date">${y}년 ${MONTHS_SHORT[m-1]} ${d}일${nextEv.time ? ' · ' + nextEv.time : ''}</div>
+          <div class="next-event-title" style="color:${nextEv.color || 'var(--ink)'}">
+            ${nextEv.title}
+          </div>`;
+      } else {
+        box.innerHTML = `<div class="next-event-empty">등록된 일정이 없어요</div>`;
+      }
+    }
+
+    renderCalendar();
+    renderSummary();
+  </script>
+</body>
+</html>
