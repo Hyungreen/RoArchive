@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>노카이브 — RoArchive</title>
   <style>
-    @font-face { font-family: '오복상회'; src: url('fonts/오복상회R.ttf') format('truetype'); font-weight: 400; }
-    @font-face { font-family: '오복상회'; src: url('fonts/오복상회L.ttf') format('truetype'); font-weight: 300; }
+    @font-face { font-family: '오복상회'; src: url('fonts/오복상회R.woff2') format('woff2'); font-weight: 400; }
+    @font-face { font-family: '오복상회'; src: url('fonts/오복상회L.woff2') format('woff2'); font-weight: 300; }
 
-    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕1.ttf') format('truetype'); font-weight: 100; }
-    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕2.ttf') format('truetype'); font-weight: 200; }
-    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕3.ttf') format('truetype'); font-weight: 300; }
-    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕4.ttf') format('truetype'); font-weight: 400; }
-    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕5.ttf') format('truetype'); font-weight: 500; }
-    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕6.ttf') format('truetype'); font-weight: 700; }
-    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕7.ttf') format('truetype'); font-weight: 900; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕1.woff2') format('woff2'); font-weight: 100; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕2.woff2') format('woff2'); font-weight: 200; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕3.woff2') format('woff2'); font-weight: 300; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕4.woff2') format('woff2'); font-weight: 400; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕5.woff2') format('woff2'); font-weight: 500; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕6.woff2') format('woff2'); font-weight: 700; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕7.woff2') format('woff2'); font-weight: 900; }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -301,21 +301,142 @@
       white-space: nowrap;
     }
 
+    /* ─── LOGIN ─── */
+    body.logged-out > *:not(#login-overlay) { display: none !important; }
+
+    #login-overlay {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+      z-index: 200; display: flex;
+      align-items: center; justify-content: center; padding: 24px;
+    }
+    .login-card {
+      background: var(--paper); border-radius: 3px;
+      padding: 40px 32px 32px; width: 100%; max-width: 340px;
+      position: relative;
+      box-shadow: 1px 1px 0 #d9cdb7, 2px 2px 0 #cfc3aa, 3px 3px 0 #c5b99e, 4px 5px 18px rgba(60,30,10,0.14);
+    }
+    .login-tape {
+      position: absolute; top: -11px; left: 50%;
+      transform: translateX(-50%) rotate(-1deg);
+      width: 52px; height: 22px;
+      background: rgba(210,185,140,0.55); border-radius: 2px;
+    }
+    .login-brand-label {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.75rem; color: var(--faint); letter-spacing: 0.16em; margin-bottom: 4px;
+    }
+    .login-brand-title {
+      font-family: '오복상회', sans-serif; font-weight: 400;
+      font-size: 2.6rem; color: var(--ink); line-height: 0.95;
+    }
+    .login-brand-title .lo-accent { color: #B5622A; }
+    .login-brand-en {
+      font-family: '오복상회', sans-serif; font-weight: 300;
+      font-size: 0.9rem; color: var(--mid); letter-spacing: 0.14em;
+      margin-top: 3px; margin-bottom: 18px;
+    }
+    .login-rule { height: 1.5px; background: var(--rule); margin-bottom: 22px; }
+    .login-field-label {
+      display: block; font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.76rem; color: var(--mid); margin-bottom: 5px; margin-top: 12px;
+    }
+    .login-field-label:first-of-type { margin-top: 0; }
+    .login-input {
+      width: 100%; font-family: '드림고딕', sans-serif; font-weight: 400;
+      font-size: 0.9rem; color: var(--ink); background: var(--bg);
+      border: 1.5px solid var(--rule); border-radius: 3px; padding: 10px 12px;
+      outline: none; transition: border-color 0.2s; -webkit-appearance: none;
+    }
+    .login-input:focus { border-color: #C96B2E; }
+    .login-error-msg {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.76rem; color: #C07070; min-height: 16px; margin-top: 7px;
+    }
+    .login-submit {
+      width: 100%; margin-top: 16px;
+      font-family: '드림고딕', sans-serif; font-weight: 500; font-size: 0.9rem;
+      background: #C96B2E; color: #fff; border: none; border-radius: 3px;
+      padding: 12px; cursor: pointer; transition: opacity 0.2s;
+    }
+    .login-submit:hover { opacity: 0.85; }
+    .login-submit:disabled { opacity: 0.6; cursor: default; }
+
+    /* 유저바 */
+    .user-bar {
+      display: flex; align-items: center; gap: 10px; margin-top: 10px;
+    }
+    .user-bar-name {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.8rem; color: var(--mid);
+    }
+    .user-bar-name strong { font-weight: 500; color: var(--ink); }
+    .logout-btn {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.74rem; color: var(--faint); background: none;
+      border: 1px dashed var(--rule); border-radius: 3px; padding: 3px 10px;
+      cursor: pointer; transition: color 0.2s;
+    }
+    .logout-btn:hover { color: var(--ink); border-color: var(--mid); }
+
     /* ─── RESPONSIVE ─── */
+
+    /* 터치 기기: 기울기 제거, 탭 피드백 */
+    @media (hover: none) {
+      .card-cal, .card-gather, .card-note, .card-gallery, .card-tree {
+        transform: none !important;
+      }
+      .card:active {
+        transform: scale(0.97) !important;
+        transition: transform 0.1s;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .board { gap: 14px; margin-top: 36px; }
+    }
+
     @media (max-width: 640px) {
-      .board { grid-template-columns: 1fr 1fr; padding: 0 16px; }
+      .header-wrap { padding: 32px 16px 0; }
+      .stamp { top: 28px; right: 14px; width: 64px; height: 64px; border-width: 2px; }
+      .stamp-year { font-size: 1.1rem; }
+      .stamp-top, .stamp-bottom { font-size: 0.5rem; }
+      .header-label { font-size: 0.8rem; }
+      .header-en { font-size: 1rem; margin-top: 4px; }
+      .ruled { margin-top: 14px; }
+      .ruled + .ruled { margin-top: 6px; }
+      .header-sub-row { flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+      .tagline { font-size: 0.88rem; }
+      .date-pill { font-size: 0.85rem; }
+
+      .board {
+        grid-template-columns: 1fr 1fr;
+        padding: 0 14px;
+      }
       .card-cal, .card-gather { grid-column: span 2; }
       .card-note, .card-gallery, .card-tree { grid-column: span 1; }
-      .header-wrap { padding: 40px 16px 0; }
-      .stamp { top: 36px; right: 16px; width: 70px; height: 70px; }
+      .card { padding: 22px 16px 18px; }
+      .card-icon { font-size: 1.8rem; margin-bottom: 10px; }
+      .card-kr { font-size: 1.05rem; }
+      .card-en { font-size: 0.95rem; margin-bottom: 8px; }
+      .card-desc { font-size: 0.76rem; }
+
+      footer { padding: 0 14px; margin-top: 36px; }
+      .footer-text { font-size: 0.82rem; }
     }
-    @media (max-width: 420px) {
-      .board { grid-template-columns: 1fr; }
-      .card-cal, .card-gather, .card-note, .card-gallery, .card-tree { grid-column: span 1; }
+
+    @media (max-width: 400px) {
+      .stamp { display: none; }
+      .board { grid-template-columns: 1fr; padding: 0 14px; }
+      .card-cal, .card-gather, .card-note, .card-gallery, .card-tree {
+        grid-column: span 1;
+      }
+      .card::before { display: none; }
     }
   </style>
 </head>
-<body>
+<body class="logged-out">
 
   <!-- ── HEADER ── -->
   <div class="header-wrap">
@@ -335,6 +456,10 @@
     <div class="header-sub-row">
       <span class="date-pill" id="today-date"></span>
       <span class="tagline">우리의 기록이 쌓여가는 공간 ✦</span>
+    </div>
+    <div class="user-bar">
+      <span class="user-bar-name"><strong id="user-name-display"></strong>님 안녕하세요 👋</span>
+      <button class="logout-btn" id="logout-btn">로그아웃</button>
     </div>
 
   </div>
@@ -390,6 +515,73 @@
     <span class="footer-text">RoArchive · 노가네 가족 아카이브</span>
     <div class="footer-line"></div>
   </footer>
+
+  <!-- LOGIN OVERLAY -->
+  <div id="login-overlay">
+    <div class="login-card">
+      <div class="login-tape"></div>
+      <p class="login-brand-label">노가네 가족 기록</p>
+      <h2 class="login-brand-title"><span class="lo-accent">노</span>카이브</h2>
+      <p class="login-brand-en">RoArchive</p>
+      <div class="login-rule"></div>
+      <label class="login-field-label">이름</label>
+      <input class="login-input" type="text" id="login-name" placeholder="예: 엄마, 아빠, 준" autocomplete="username" />
+      <label class="login-field-label">비밀번호</label>
+      <input class="login-input" type="password" id="login-pw" placeholder="비밀번호를 입력해요" autocomplete="current-password" />
+      <p class="login-error-msg" id="login-error"></p>
+      <button class="login-submit" id="login-btn">들어가기 →</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut }
+      from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBhNp-LIY_7BCPEFY0R2uDFfAuXQtHC67o",
+      authDomain: "roarchive-korea.firebaseapp.com",
+      projectId: "roarchive-korea",
+      storageBucket: "roarchive-korea.firebasestorage.app",
+      messagingSenderId: "978374324158",
+      appId: "1:978374324158:web:a9756cc7aaa5888ef913ef"
+    };
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const SUFFIX = '@ro.archive';
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById('login-overlay').style.display = 'none';
+        document.body.classList.remove('logged-out');
+        document.getElementById('user-name-display').textContent =
+          user.email.replace(SUFFIX, '');
+      } else {
+        document.getElementById('login-overlay').style.display = 'flex';
+        document.body.classList.add('logged-out');
+      }
+    });
+
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      const name = document.getElementById('login-name').value.trim();
+      const pw   = document.getElementById('login-pw').value;
+      const err  = document.getElementById('login-error');
+      err.textContent = '';
+      if (!name || !pw) { err.textContent = '이름과 비밀번호를 입력해주세요'; return; }
+      const btn = document.getElementById('login-btn');
+      btn.textContent = '로그인 중...'; btn.disabled = true;
+      try {
+        await signInWithEmailAndPassword(auth, name + SUFFIX, pw);
+      } catch {
+        err.textContent = '이름 또는 비밀번호가 틀렸어요 😢';
+        btn.textContent = '들어가기 →'; btn.disabled = false;
+      }
+    });
+    document.getElementById('login-pw').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('login-btn').click();
+    });
+    document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
+  </script>
 
   <script>
     const now = new Date();
