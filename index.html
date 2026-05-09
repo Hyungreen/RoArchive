@@ -198,15 +198,17 @@
     /* slight rotation per card — overridden individually */
     .card-cal     { grid-column: span 3; transform: rotate(-0.6deg); }
     .card-gather  { grid-column: span 3; transform: rotate(0.5deg); }
-    .card-note    { grid-column: span 2; transform: rotate(-0.8deg); }
-    .card-gallery { grid-column: span 2; transform: rotate(0.7deg); }
-    .card-tree    { grid-column: span 2; transform: rotate(-0.4deg); }
+    .card-note    { grid-column: span 3; transform: rotate(-0.8deg); }
+    .card-gallery { grid-column: span 3; transform: rotate(0.7deg); }
+    .card-tree    { grid-column: span 3; transform: rotate(-0.4deg); }
+    .card-chat    { grid-column: span 3; transform: rotate(0.3deg); }
 
     .card-cal:hover     { transform: translateY(-6px) rotate(-0.6deg) scale(1.015); }
     .card-gather:hover  { transform: translateY(-6px) rotate(0.5deg)  scale(1.015); }
     .card-note:hover    { transform: translateY(-6px) rotate(-0.8deg) scale(1.015); }
     .card-gallery:hover { transform: translateY(-6px) rotate(0.7deg)  scale(1.015); }
     .card-tree:hover    { transform: translateY(-6px) rotate(-0.4deg) scale(1.015); }
+    .card-chat:hover    { transform: translateY(-6px) rotate(0.3deg)  scale(1.015); }
 
     /* left color tab */
     .card::after {
@@ -223,6 +225,7 @@
     .card-note    { --c: #4D7FA8; }
     .card-gallery { --c: #B56070; }
     .card-tree    { --c: #7A6840; }
+    .card-chat    { --c: #7B6BAA; }
 
     .card-icon {
       font-size: 2rem;
@@ -384,7 +387,7 @@
 
     /* 터치 기기: 기울기 제거, 탭 피드백 */
     @media (hover: none) {
-      .card-cal, .card-gather, .card-note, .card-gallery, .card-tree {
+      .card-cal, .card-gather, .card-note, .card-gallery, .card-tree, .card-chat {
         transform: none !important;
       }
       .card:active {
@@ -415,7 +418,7 @@
         padding: 0 14px;
       }
       .card-cal, .card-gather { grid-column: span 2; }
-      .card-note, .card-gallery, .card-tree { grid-column: span 1; }
+      .card-note, .card-gallery, .card-tree, .card-chat { grid-column: span 1; }
       .card { padding: 22px 16px 18px; }
       .card-icon { font-size: 1.8rem; margin-bottom: 10px; }
       .card-kr { font-size: 1.05rem; }
@@ -429,7 +432,7 @@
     @media (max-width: 400px) {
       .stamp { display: none; }
       .board { grid-template-columns: 1fr; padding: 0 14px; }
-      .card-cal, .card-gather, .card-note, .card-gallery, .card-tree {
+      .card-cal, .card-gather, .card-note, .card-gallery, .card-tree, .card-chat {
         grid-column: span 1;
       }
       .card::before { display: none; }
@@ -507,6 +510,14 @@
       <p class="card-desc">노가네 가족 관계도와 족보.</p>
     </a>
 
+    <a class="card card-chat" href="rochat.html">
+      <div class="hole"></div>
+      <span class="card-icon">💬</span>
+      <p class="card-kr-wrap"><span class="card-kr">노챗</span></p>
+      <p class="card-en">RoChat</p>
+      <p class="card-desc">가족끼리 주고받는 실시간 채팅.<br>오늘 뭐 먹지? 부터 보고 싶다 까지.</p>
+    </a>
+
   </div>
 
   <!-- ── FOOTER ── -->
@@ -525,7 +536,7 @@
       <p class="login-brand-en">RoArchive</p>
       <div class="login-rule"></div>
       <label class="login-field-label">이름</label>
-      <input class="login-input" type="text" id="login-name" placeholder="예: 엄마, 아빠, 준" autocomplete="username" />
+      <input class="login-input" type="text" id="login-name" placeholder="예: 엄마, 아빠, 수민" autocomplete="username" />
       <label class="login-field-label">비밀번호</label>
       <input class="login-input" type="password" id="login-pw" placeholder="비밀번호를 입력해요" autocomplete="current-password" />
       <p class="login-error-msg" id="login-error"></p>

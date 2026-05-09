@@ -18,13 +18,13 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:      #F2EAD8;
-      --paper:   #FBF6EC;
-      --ink:     #2C1E14;
-      --mid:     #7A5C44;
-      --faint:   #B09880;
-      --rule:    #DDD0B8;
-      --accent:  #C96B2E;
+      --bg:     #F2EAD8;
+      --paper:  #FBF6EC;
+      --ink:    #2C1E14;
+      --mid:    #7A5C44;
+      --faint:  #B09880;
+      --rule:   #DDD0B8;
+      --accent: #C96B2E;
     }
 
     body {
@@ -40,556 +40,440 @@
     .topbar {
       max-width: 900px;
       margin: 0 auto;
-      padding: 32px 32px 0;
+      padding: 28px 32px 0;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 10px;
     }
-
     .back-btn {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.82rem;
-      color: var(--faint);
-      text-decoration: none;
-      border: 1.5px dashed var(--rule);
-      border-radius: 4px;
-      padding: 4px 12px;
-      transition: color 0.2s, border-color 0.2s;
-      white-space: nowrap;
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.82rem; color: var(--faint);
+      text-decoration: none; border: 1.5px dashed var(--rule);
+      border-radius: 4px; padding: 5px 12px;
+      transition: color 0.2s, border-color 0.2s; white-space: nowrap;
     }
     .back-btn:hover { color: var(--accent); border-color: var(--accent); }
-
     .topbar-title {
-      font-family: '오복상회', sans-serif;
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: var(--ink);
-      letter-spacing: 0.02em;
+      font-family: '오복상회', sans-serif; font-size: 1.5rem;
+      font-weight: 400; color: var(--ink); letter-spacing: 0.02em;
     }
-
     .topbar-en {
-      font-family: '오복상회', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 300;
-      color: var(--faint);
-      letter-spacing: 0.12em;
+      font-family: '오복상회', sans-serif; font-size: 0.82rem;
+      font-weight: 300; color: var(--faint); letter-spacing: 0.12em;
     }
+    .topbar-spacer { flex: 1; }
+    .drawer-toggle {
+      background: none; border: 1.5px solid var(--rule);
+      border-radius: 4px; padding: 6px 11px;
+      cursor: pointer; font-size: 0.82rem; color: var(--mid);
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+    .drawer-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .drawer-toggle.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .user-greeting { font-family: '드림고딕', sans-serif; font-weight: 300; font-size: 0.8rem; color: var(--mid); white-space: nowrap; }
+    .user-greeting strong { font-weight: 500; color: var(--ink); }
+    .logout-btn {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.74rem; color: var(--faint); background: none;
+      border: 1px dashed var(--rule); border-radius: 3px;
+      padding: 4px 10px; cursor: pointer; transition: color 0.2s; white-space: nowrap;
+    }
+    .logout-btn:hover { color: var(--ink); }
 
     /* ── MONTH NAV ── */
     .month-nav {
-      max-width: 900px;
-      margin: 28px auto 0;
+      max-width: 900px; margin: 28px auto 0;
       padding: 0 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
     }
-
     .nav-btn {
-      background: none;
-      border: 1.5px solid var(--rule);
-      border-radius: 4px;
-      width: 36px; height: 36px;
-      cursor: pointer;
-      font-size: 1rem;
-      color: var(--mid);
+      background: none; border: 1.5px solid var(--rule);
+      border-radius: 4px; width: 36px; height: 36px; cursor: pointer;
+      font-size: 1rem; color: var(--mid);
       transition: border-color 0.2s, color 0.2s;
       display: flex; align-items: center; justify-content: center;
     }
     .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-    .month-label {
-      text-align: center;
-    }
+    .month-label { text-align: center; }
     .month-label-year {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.85rem;
-      color: var(--faint);
-      letter-spacing: 0.1em;
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.85rem; color: var(--faint); letter-spacing: 0.1em;
     }
     .month-label-month {
-      font-family: '오복상회', sans-serif;
-      font-size: 2rem;
-      font-weight: 400;
-      color: var(--ink);
-      line-height: 1.1;
+      font-family: '오복상회', sans-serif; font-size: 2rem;
+      font-weight: 400; color: var(--ink); line-height: 1.1;
     }
 
     /* ── CALENDAR ── */
-    .cal-wrap {
-      max-width: 900px;
-      margin: 20px auto 0;
-      padding: 0 32px;
-    }
-
+    .cal-wrap { max-width: 900px; margin: 20px auto 0; padding: 0 32px; }
     .cal-paper {
-      background: var(--paper);
-      border-radius: 3px;
-      box-shadow:
-        1px 1px 0 #d9cdb7,
-        2px 2px 0 #cfc3aa,
-        3px 3px 0 #c5b99e,
-        4px 5px 18px rgba(60,30,10,0.12);
+      background: var(--paper); border-radius: 3px;
+      box-shadow: 1px 1px 0 #d9cdb7, 2px 2px 0 #cfc3aa,
+                  3px 3px 0 #c5b99e, 4px 5px 18px rgba(60,30,10,0.12);
       padding: 24px;
     }
-
-    .cal-dow {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      margin-bottom: 6px;
-    }
+    .cal-dow { display: grid; grid-template-columns: repeat(7,1fr); margin-bottom: 6px; }
     .cal-dow span {
-      text-align: center;
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.72rem;
-      color: var(--faint);
-      padding: 4px 0;
-      letter-spacing: 0.06em;
+      text-align: center; font-family: '드림고딕', sans-serif;
+      font-weight: 300; font-size: 0.72rem; color: var(--faint);
+      padding: 4px 0; letter-spacing: 0.06em;
     }
     .cal-dow span:first-child { color: #C0705A; }
     .cal-dow span:last-child  { color: #5A7AC0; }
-
-    .cal-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-    }
-
+    .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
     .cal-day {
-      min-height: 80px;
-      border: 1px solid transparent;
-      border-radius: 3px;
-      padding: 6px 8px 4px;
-      cursor: pointer;
-      transition: background 0.15s, border-color 0.15s;
-      position: relative;
-      display: flex;
-      flex-direction: column;
+      min-height: 80px; border: 1px solid transparent;
+      border-radius: 3px; padding: 6px 8px 4px;
+      cursor: pointer; transition: background 0.15s, border-color 0.15s;
+      position: relative; display: flex; flex-direction: column;
     }
     .cal-day:hover { background: rgba(201,107,46,0.06); border-color: var(--rule); }
     .cal-day.empty { cursor: default; pointer-events: none; }
     .cal-day.today .day-num {
-      background: var(--accent);
-      color: #fff;
-      border-radius: 50%;
+      background: var(--accent); color: #fff; border-radius: 50%;
       width: 24px; height: 24px;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700;
+      display: flex; align-items: center; justify-content: center; font-weight: 700;
     }
-    .cal-day.sunday .day-num { color: #C0705A; }
+    .cal-day.sunday .day-num  { color: #C0705A; }
     .cal-day.saturday .day-num { color: #5A7AC0; }
-
     .day-num {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 500;
-      font-size: 0.82rem;
-      color: var(--ink);
-      margin-bottom: 4px;
-      width: 24px; height: 24px;
-      display: flex; align-items: center; justify-content: center;
+      font-family: '드림고딕', sans-serif; font-weight: 500; font-size: 0.82rem;
+      color: var(--ink); margin-bottom: 4px;
+      width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
     }
-
-    .day-events {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      flex: 1;
-      overflow: hidden;
-    }
-
+    .day-events { display: flex; flex-direction: column; gap: 2px; flex: 1; overflow: hidden; }
     .event-chip {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.65rem;
-      line-height: 1.3;
-      padding: 1px 5px;
-      border-radius: 2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: #fff;
-      cursor: pointer;
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.65rem; line-height: 1.3; padding: 1px 5px;
+      border-radius: 2px; white-space: nowrap; overflow: hidden;
+      text-overflow: ellipsis; color: #fff; cursor: pointer;
     }
     .event-chip:hover { opacity: 0.85; }
 
+    /* ── DRAWER BACKDROP ── */
+    .drawer-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(44,30,20,0.28);
+      z-index: 148; opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .drawer-backdrop.open { opacity: 1; pointer-events: all; }
+
+    /* ── DRAWER BASE ── */
+    .drawer {
+      position: fixed; top: 0; bottom: 0;
+      width: 300px; max-width: 88vw;
+      background: var(--paper);
+      z-index: 150; overflow-y: auto;
+      transition: transform 0.32s cubic-bezier(.22,1,.36,1);
+    }
+    .drawer-left {
+      left: 0; transform: translateX(-105%);
+      box-shadow: 4px 0 28px rgba(60,30,10,0.18);
+    }
+    .drawer-right {
+      right: 0; transform: translateX(105%);
+      box-shadow: -4px 0 28px rgba(60,30,10,0.18);
+    }
+    .drawer-left.open  { transform: translateX(0); }
+    .drawer-right.open { transform: translateX(0); }
+
+    /* drawer top */
+    .drawer-head {
+      position: sticky; top: 0; z-index: 2;
+      background: var(--paper);
+      padding: 18px 18px 0;
+    }
+    .drawer-head-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .drawer-head-title {
+      font-family: '오복상회', sans-serif;
+      font-size: 1.1rem; color: var(--ink); letter-spacing: 0.04em;
+    }
+    .drawer-close {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.1rem; color: var(--faint);
+      padding: 4px 6px; border-radius: 3px;
+      line-height: 1; transition: color 0.2s;
+    }
+    .drawer-close:hover { color: var(--ink); }
+    .drawer-rule { height: 1.5px; background: var(--rule); }
+
+    /* ── LEFT DRAWER: TABS ── */
+    .drawer-tabs {
+      display: flex; border-bottom: 1.5px solid var(--rule);
+      margin: 0 18px;
+    }
+    .drawer-tab {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.8rem; color: var(--faint);
+      background: none; border: none; cursor: pointer;
+      padding: 10px 12px; border-bottom: 2px solid transparent;
+      margin-bottom: -1.5px; transition: color 0.2s; white-space: nowrap;
+    }
+    .drawer-tab.active {
+      color: var(--accent); border-bottom-color: var(--accent); font-weight: 500;
+    }
+
+    /* tab panels */
+    .drawer-panel { display: none; padding: 16px 18px 32px; }
+    .drawer-panel.active { display: block; }
+
+    /* ── SUMMARY PANEL ── */
+    .sum-section { margin-bottom: 20px; }
+    .sum-section-label {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.7rem; color: var(--faint); letter-spacing: 0.1em;
+      margin-bottom: 8px; text-transform: uppercase;
+    }
+    .sum-big {
+      font-family: '오복상회', sans-serif;
+      font-size: 2.4rem; font-weight: 400; color: var(--accent); line-height: 1;
+    }
+    .sum-big-label {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.78rem; color: var(--faint); margin-top: 4px;
+    }
+    .sum-rule { height: 1px; background: var(--rule); margin: 16px 0; }
+
+    /* month summary table */
+    .month-sum-grid {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 6px;
+    }
+    .month-sum-cell {
+      background: var(--bg); border-radius: 3px;
+      border: 1px solid var(--rule);
+      padding: 7px 6px; cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      text-align: center;
+    }
+    .month-sum-cell:hover { border-color: var(--accent); background: rgba(201,107,46,0.05); }
+    .month-sum-cell.active { border-color: var(--accent); background: rgba(201,107,46,0.08); }
+    .msc-name {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.7rem; color: var(--faint);
+    }
+    .msc-count {
+      font-family: '드림고딕', sans-serif; font-weight: 700;
+      font-size: 1rem; color: var(--ink); line-height: 1.2;
+    }
+    .msc-count.has { color: var(--accent); }
+    .msc-dots { display: flex; gap: 2px; justify-content: center; margin-top: 3px; flex-wrap: wrap; min-height: 7px; }
+    .msc-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+    /* next event */
+    .next-event-card {
+      background: var(--bg); border-radius: 3px;
+      border-left: 3px solid var(--accent);
+      padding: 10px 12px;
+    }
+    .next-event-when {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.72rem; color: var(--mid); margin-bottom: 3px;
+    }
+    .next-event-name {
+      font-family: '드림고딕', sans-serif; font-weight: 700;
+      font-size: 0.9rem; color: var(--ink);
+    }
+    .next-event-empty {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.82rem; color: var(--rule);
+    }
+
+    /* ── NOTICE PANEL ── */
+    .notice-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .notice-item {
+      background: var(--bg); border-radius: 3px;
+      border: 1px solid var(--rule); padding: 10px 12px; position: relative;
+    }
+    .notice-item-top {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;
+    }
+    .notice-author {
+      font-family: '드림고딕', sans-serif; font-weight: 500;
+      font-size: 0.76rem; color: var(--accent);
+    }
+    .notice-del {
+      background: none; border: none; cursor: pointer;
+      font-size: 0.7rem; color: var(--faint); padding: 2px 4px;
+      border-radius: 2px; transition: color 0.15s;
+    }
+    .notice-del:hover { color: #C07070; }
+    .notice-text {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.84rem; color: var(--ink);
+      line-height: 1.65; white-space: pre-wrap;
+    }
+    .notice-time {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.68rem; color: var(--faint); margin-top: 6px;
+    }
+    .notice-empty {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.82rem; color: var(--rule); text-align: center;
+      padding: 20px 0;
+    }
+    .notice-form { border-top: 1.5px solid var(--rule); padding-top: 14px; }
+    .notice-form-label {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.72rem; color: var(--faint); margin-bottom: 6px;
+    }
+    .notice-textarea {
+      width: 100%; font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.84rem; color: var(--ink); background: var(--bg);
+      border: 1.5px solid var(--rule); border-radius: 3px;
+      padding: 8px 10px; resize: none; outline: none;
+      transition: border-color 0.2s;
+    }
+    .notice-textarea:focus { border-color: var(--accent); }
+    .notice-submit {
+      width: 100%; margin-top: 8px;
+      font-family: '드림고딕', sans-serif; font-weight: 500; font-size: 0.84rem;
+      background: var(--accent); color: #fff; border: none; border-radius: 3px;
+      padding: 9px; cursor: pointer; transition: opacity 0.2s;
+    }
+    .notice-submit:hover { opacity: 0.85; }
+    .notice-submit:disabled { opacity: 0.6; cursor: default; }
+
+    /* ── RIGHT DRAWER: MONTH EVENTS ── */
+    .right-drawer-body { padding: 12px 18px 32px; }
+    .right-month-label {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.72rem; color: var(--faint); letter-spacing: 0.1em;
+      margin-bottom: 12px; text-transform: uppercase;
+    }
+    .right-day-group { margin-bottom: 10px; }
+    .right-day-header {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.72rem; color: var(--mid);
+      padding: 4px 0 6px; border-bottom: 1px solid var(--rule);
+      margin-bottom: 6px; letter-spacing: 0.04em;
+    }
+    .right-event-item {
+      display: flex; gap: 8px; align-items: flex-start;
+      padding: 7px 8px; border-radius: 3px;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .right-event-item:hover { background: rgba(201,107,46,0.07); }
+    .right-event-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      flex-shrink: 0; margin-top: 4px;
+    }
+    .right-event-body { flex: 1; min-width: 0; }
+    .right-event-title {
+      font-family: '드림고딕', sans-serif; font-weight: 400;
+      font-size: 0.83rem; color: var(--ink);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .right-event-time {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.7rem; color: var(--faint); margin-top: 1px;
+    }
+    .right-empty {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.82rem; color: var(--rule);
+      text-align: center; padding: 30px 0;
+    }
+
     /* ── MODAL ── */
     .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(44, 30, 20, 0.35);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
+      display: none; position: fixed; inset: 0;
+      background: rgba(44,30,20,0.35); z-index: 200;
+      align-items: center; justify-content: center;
     }
     .modal-overlay.open { display: flex; }
-
     .modal {
-      background: var(--paper);
-      border-radius: 4px;
-      padding: 32px 28px 24px;
-      width: 380px;
-      max-width: 90vw;
-      box-shadow: 4px 6px 28px rgba(60,30,10,0.25);
-      position: relative;
+      background: var(--paper); border-radius: 4px; padding: 32px 28px 24px;
+      width: 380px; max-width: 90vw;
+      box-shadow: 4px 6px 28px rgba(60,30,10,0.25); position: relative;
     }
-    /* tape on modal */
     .modal::before {
-      content: '';
-      position: absolute;
-      top: -11px; left: 50%;
+      content: ''; position: absolute; top: -11px; left: 50%;
       transform: translateX(-50%) rotate(-1deg);
       width: 52px; height: 22px;
-      background: rgba(210, 185, 140, 0.55);
-      border-radius: 2px;
+      background: rgba(210,185,140,0.55); border-radius: 2px;
     }
-
     .modal-date {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.8rem;
-      color: var(--faint);
-      margin-bottom: 4px;
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.8rem; color: var(--faint); margin-bottom: 4px;
     }
     .modal-title {
-      font-family: '오복상회', sans-serif;
-      font-size: 1.3rem;
-      color: var(--ink);
-      margin-bottom: 20px;
+      font-family: '오복상회', sans-serif; font-size: 1.3rem;
+      color: var(--ink); margin-bottom: 20px;
     }
-
     .modal label {
-      display: block;
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.78rem;
-      color: var(--mid);
-      margin-bottom: 5px;
-      margin-top: 14px;
+      display: block; font-family: '드림고딕', sans-serif;
+      font-weight: 300; font-size: 0.78rem; color: var(--mid);
+      margin-bottom: 5px; margin-top: 14px;
     }
     .modal label:first-of-type { margin-top: 0; }
-
-    .modal input[type="text"],
-    .modal input[type="time"],
-    .modal textarea {
-      width: 100%;
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.85rem;
-      color: var(--ink);
-      background: var(--bg);
-      border: 1.5px solid var(--rule);
-      border-radius: 3px;
-      padding: 8px 10px;
-      outline: none;
-      transition: border-color 0.2s;
-      resize: none;
+    .modal input[type="text"], .modal input[type="time"], .modal textarea {
+      width: 100%; font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.85rem; color: var(--ink); background: var(--bg);
+      border: 1.5px solid var(--rule); border-radius: 3px; padding: 8px 10px;
+      outline: none; transition: border-color 0.2s; resize: none;
     }
-    .modal input:focus,
-    .modal textarea:focus { border-color: var(--accent); }
-
-    .color-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 4px;
-    }
+    .modal input:focus, .modal textarea:focus { border-color: var(--accent); }
+    .color-row { display: flex; gap: 8px; margin-top: 4px; }
     .color-dot {
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: transform 0.15s;
+      width: 22px; height: 22px; border-radius: 50%; cursor: pointer;
+      border: 2px solid transparent; transition: transform 0.15s;
     }
     .color-dot:hover { transform: scale(1.2); }
     .color-dot.selected { border-color: var(--ink); transform: scale(1.15); }
-
-    .modal-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 20px;
-    }
+    .modal-actions { display: flex; gap: 8px; margin-top: 20px; }
     .btn-save {
-      flex: 1;
-      font-family: '드림고딕', sans-serif;
-      font-weight: 500;
-      font-size: 0.85rem;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 3px;
-      padding: 10px;
-      cursor: pointer;
-      transition: opacity 0.2s;
+      flex: 1; font-family: '드림고딕', sans-serif; font-weight: 500; font-size: 0.85rem;
+      background: var(--accent); color: #fff; border: none; border-radius: 3px;
+      padding: 10px; cursor: pointer; transition: opacity 0.2s;
     }
     .btn-save:hover { opacity: 0.85; }
     .btn-cancel {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.85rem;
-      background: none;
-      color: var(--faint);
-      border: 1.5px solid var(--rule);
-      border-radius: 3px;
-      padding: 10px 16px;
-      cursor: pointer;
-      transition: color 0.2s;
+      font-family: '드림고딕', sans-serif; font-weight: 300; font-size: 0.85rem;
+      background: none; color: var(--faint); border: 1.5px solid var(--rule);
+      border-radius: 3px; padding: 10px 16px; cursor: pointer; transition: color 0.2s;
     }
     .btn-cancel:hover { color: var(--ink); }
 
-    /* event detail modal */
-    .detail-event-title {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--ink);
-      margin-bottom: 6px;
-    }
-    .detail-event-time {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.82rem;
-      color: var(--mid);
-      margin-bottom: 4px;
-    }
-    .detail-event-memo {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.82rem;
-      color: var(--mid);
-      line-height: 1.6;
-      white-space: pre-wrap;
-    }
-    .btn-delete {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.82rem;
-      background: none;
-      color: #C07070;
-      border: 1.5px solid #D0A0A0;
-      border-radius: 3px;
-      padding: 8px 14px;
-      cursor: pointer;
-      margin-top: 16px;
-    }
-    .btn-delete:hover { background: #FFF0F0; }
-
+    /* view modal */
+    .detail-event-title { font-family: '드림고딕', sans-serif; font-weight: 700; font-size: 1rem; color: var(--ink); margin-bottom: 6px; }
+    .detail-event-time  { font-family: '드림고딕', sans-serif; font-weight: 300; font-size: 0.82rem; color: var(--mid); margin-bottom: 4px; }
+    .detail-event-memo  { font-family: '드림고딕', sans-serif; font-weight: 300; font-size: 0.82rem; color: var(--mid); line-height: 1.6; white-space: pre-wrap; }
     .event-list { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
-    .event-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 8px 10px;
-      background: var(--bg);
-      border-radius: 3px;
-      border: 1px solid var(--rule);
-    }
-    .event-item-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      margin-top: 4px;
-    }
+    .event-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; background: var(--bg); border-radius: 3px; border: 1px solid var(--rule); }
+    .event-item-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
     .event-item-body { flex: 1; min-width: 0; }
-    .event-item-delete {
-      background: none;
-      border: none;
-      color: var(--faint);
-      cursor: pointer;
-      font-size: 0.85rem;
-      padding: 0 2px;
-      flex-shrink: 0;
-    }
-    .event-item-delete:hover { color: #C07070; }
+    .event-item-actions { display: flex; gap: 4px; flex-shrink: 0; }
+    .event-item-edit, .event-item-delete { background: none; border: none; cursor: pointer; font-size: 0.82rem; padding: 2px 4px; border-radius: 3px; transition: background 0.15s, color 0.15s; }
+    .event-item-edit { color: var(--faint); }
+    .event-item-edit:hover { color: var(--accent); background: rgba(201,107,46,0.08); }
+    .event-item-delete { color: var(--faint); }
+    .event-item-delete:hover { color: #C07070; background: rgba(192,112,112,0.08); }
     .btn-add-more {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.8rem;
-      background: none;
-      border: 1.5px dashed var(--rule);
-      color: var(--faint);
-      border-radius: 3px;
-      padding: 7px;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 10px;
+      font-family: '드림고딕', sans-serif; font-weight: 300; font-size: 0.8rem;
+      background: none; border: 1.5px dashed var(--rule); color: var(--faint);
+      border-radius: 3px; padding: 7px; cursor: pointer; width: 100%; margin-top: 10px;
     }
     .btn-add-more:hover { color: var(--accent); border-color: var(--accent); }
 
-    /* ── SUMMARY ── */
-    .summary-wrap {
-      max-width: 900px;
-      margin: 24px auto 0;
-      padding: 0 32px;
-    }
-
-    .summary-paper {
-      background: var(--paper);
-      border-radius: 3px;
-      box-shadow:
-        1px 1px 0 #d9cdb7,
-        2px 2px 0 #cfc3aa,
-        3px 4px 14px rgba(60,30,10,0.10);
-      padding: 20px 24px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      align-items: flex-start;
-    }
-
-    .summary-stat {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      min-width: 80px;
-    }
-    .summary-stat-num {
-      font-family: '오복상회', sans-serif;
-      font-size: 2rem;
-      font-weight: 400;
-      color: var(--accent);
-      line-height: 1;
-    }
-    .summary-stat-label {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.75rem;
-      color: var(--faint);
-    }
-
-    .summary-divider {
-      width: 1px;
-      align-self: stretch;
-      background: var(--rule);
-      flex-shrink: 0;
-    }
-
-    .summary-months {
-      flex: 1;
-      min-width: 200px;
-    }
-    .summary-months-label {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.72rem;
-      color: var(--faint);
-      margin-bottom: 8px;
-      letter-spacing: 0.06em;
-    }
-    .month-strip {
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-    }
-    .month-pip {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      cursor: pointer;
-      padding: 4px 3px;
-      border-radius: 3px;
-      transition: background 0.15s;
-      min-width: 28px;
-    }
-    .month-pip:hover { background: rgba(201,107,46,0.08); }
-    .month-pip.active .pip-name { color: var(--accent); font-weight: 500; }
-    .pip-name {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.65rem;
-      color: var(--faint);
-    }
-    .pip-dots {
-      display: flex;
-      gap: 2px;
-      min-height: 7px;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      max-width: 28px;
-    }
-    .pip-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .pip-empty {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--rule);
-      flex-shrink: 0;
-    }
-
-    .summary-next {
-      flex: 1;
-      min-width: 160px;
-    }
-    .summary-next-label {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.72rem;
-      color: var(--faint);
-      margin-bottom: 8px;
-      letter-spacing: 0.06em;
-    }
-    .next-event-date {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.75rem;
-      color: var(--mid);
-      margin-bottom: 2px;
-    }
-    .next-event-title {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: var(--ink);
-    }
-    .next-event-empty {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.82rem;
-      color: var(--rule);
-    }
-
     /* footer */
-    footer {
-      max-width: 900px;
-      margin: 40px auto 0;
-      padding: 0 32px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
+    footer { max-width: 900px; margin: 40px auto 0; padding: 0 32px; display: flex; align-items: center; gap: 16px; }
     .footer-line { flex: 1; height: 1px; background: var(--rule); }
-    .footer-text {
-      font-family: '드림고딕', sans-serif;
-      font-weight: 300;
-      font-size: 0.82rem;
-      color: var(--faint);
-      white-space: nowrap;
-    }
+    .footer-text { font-family: '드림고딕', sans-serif; font-weight: 300; font-size: 0.82rem; color: var(--faint); white-space: nowrap; }
 
     /* ─── LOGIN ─── */
     body.logged-out > *:not(#login-overlay) { display: none !important; }
     #login-overlay {
       position: fixed; inset: 0; background: var(--bg);
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
-      z-index: 200; display: flex; align-items: center; justify-content: center; padding: 24px;
+      z-index: 300; display: flex; align-items: center; justify-content: center; padding: 24px;
     }
-    .login-card {
-      background: var(--paper); border-radius: 3px; padding: 40px 32px 32px;
-      width: 100%; max-width: 340px; position: relative;
-      box-shadow: 1px 1px 0 #d9cdb7, 2px 2px 0 #cfc3aa, 3px 3px 0 #c5b99e, 4px 5px 18px rgba(60,30,10,0.14);
-    }
-    .login-tape {
-      position: absolute; top: -11px; left: 50%;
-      transform: translateX(-50%) rotate(-1deg);
-      width: 52px; height: 22px; background: rgba(210,185,140,0.55); border-radius: 2px;
-    }
+    .login-card { background: var(--paper); border-radius: 3px; padding: 40px 32px 32px; width: 100%; max-width: 340px; position: relative; box-shadow: 1px 1px 0 #d9cdb7, 2px 2px 0 #cfc3aa, 3px 3px 0 #c5b99e, 4px 5px 18px rgba(60,30,10,0.14); }
+    .login-tape { position: absolute; top: -11px; left: 50%; transform: translateX(-50%) rotate(-1deg); width: 52px; height: 22px; background: rgba(210,185,140,0.55); border-radius: 2px; }
     .login-brand-label { font-family: '드림고딕', sans-serif; font-weight: 300; font-size: 0.75rem; color: var(--faint); letter-spacing: 0.16em; margin-bottom: 4px; }
     .login-brand-title { font-family: '오복상회', sans-serif; font-weight: 400; font-size: 2.6rem; color: var(--ink); line-height: 0.95; }
     .login-brand-title .lo-accent { color: #B5622A; }
@@ -603,85 +487,36 @@
     .login-submit { width: 100%; margin-top: 16px; font-family: '드림고딕', sans-serif; font-weight: 500; font-size: 0.9rem; background: var(--accent); color: #fff; border: none; border-radius: 3px; padding: 12px; cursor: pointer; transition: opacity 0.2s; }
     .login-submit:hover { opacity: 0.85; }
     .login-submit:disabled { opacity: 0.6; cursor: default; }
-    .logout-btn { font-family: '드림고딕', sans-serif; font-weight: 300; font-size: 0.74rem; color: var(--faint); background: none; border: 1px dashed var(--rule); border-radius: 3px; padding: 3px 10px; cursor: pointer; }
-    .logout-btn:hover { color: var(--ink); }
-    .user-greeting { font-family: '드림고딕', sans-serif; font-weight: 300; font-size: 0.8rem; color: var(--mid); }
-    .user-greeting strong { font-weight: 500; color: var(--ink); }
 
     /* ─── RESPONSIVE ─── */
-
     @media (hover: none) {
       .cal-day:active { background: rgba(201,107,46,0.1); }
-      .nav-btn:active { border-color: var(--accent); color: var(--accent); }
     }
-
     @media (max-width: 768px) {
-      .summary-wrap, .cal-wrap, .month-nav, .topbar, footer {
-        padding-left: 16px;
-        padding-right: 16px;
-      }
-      .summary-paper { gap: 14px; padding: 16px 18px; }
+      .cal-wrap, .month-nav, .topbar, footer { padding-left: 16px; padding-right: 16px; }
     }
-
     @media (max-width: 640px) {
-      /* topbar */
-      .topbar { padding-top: 24px; gap: 12px; }
-      .topbar-title { font-size: 1.3rem; }
+      .topbar { padding-top: 20px; gap: 7px; flex-wrap: wrap; }
+      .topbar-title { font-size: 1.2rem; }
       .topbar-en { font-size: 0.75rem; }
       .back-btn { font-size: 0.76rem; padding: 4px 10px; }
-
-      /* summary: 세로 스택 */
-      .summary-paper {
-        flex-direction: column;
-        gap: 14px;
-      }
-      .summary-divider { width: 100%; height: 1px; align-self: auto; }
-      .summary-stat-num { font-size: 1.6rem; }
-      .summary-months { min-width: unset; }
-      .month-strip { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
-      .month-strip::-webkit-scrollbar { height: 3px; }
-      .month-strip::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 2px; }
-      .summary-next { min-width: unset; }
-
-      /* month nav */
+      .drawer-toggle { font-size: 0.76rem; padding: 5px 9px; }
       .month-nav { margin-top: 20px; }
       .nav-btn { width: 44px; height: 44px; font-size: 1.2rem; }
       .month-label-month { font-size: 1.6rem; }
-
-      /* calendar */
       .cal-paper { padding: 14px 10px; }
       .cal-grid { gap: 2px; }
-      .cal-day {
-        min-height: 58px;
-        padding: 4px 3px;
-      }
-      .day-num {
-        font-size: 0.72rem;
-        width: 20px; height: 20px;
-      }
+      .cal-day { min-height: 58px; padding: 4px 3px; }
+      .day-num { font-size: 0.72rem; width: 20px; height: 20px; }
       .event-chip { display: none; }
       .cal-day.has-event .day-num::after {
-        content: '•';
-        display: block;
-        font-size: 0.6rem;
-        line-height: 1;
-        color: var(--accent);
-        text-align: center;
+        content: '•'; display: block; font-size: 0.6rem;
+        line-height: 1; color: var(--accent); text-align: center;
       }
-
-      /* modal: 화면 꽉 차게 */
       .modal-overlay { align-items: flex-end; }
-      .modal {
-        width: 100%;
-        max-width: 100%;
-        border-radius: 12px 12px 0 0;
-        padding: 28px 20px 32px;
-        max-height: 85vh;
-        overflow-y: auto;
-      }
+      .modal { width: 100%; max-width: 100%; border-radius: 12px 12px 0 0; padding: 28px 20px 32px; max-height: 85vh; overflow-y: auto; }
       .modal::before { display: none; }
     }
-
     @media (max-width: 380px) {
       .cal-day { min-height: 48px; }
       .cal-dow span { font-size: 0.65rem; }
@@ -700,7 +535,7 @@
       <p class="login-brand-en">RoArchive</p>
       <div class="login-rule"></div>
       <label class="login-field-label">이름</label>
-      <input class="login-input" type="text" id="login-name" placeholder="예: 엄마, 아빠, 준" autocomplete="username" />
+      <input class="login-input" type="text" id="login-name" placeholder="예: 엄마, 아빠, 수민" autocomplete="username" />
       <label class="login-field-label">비밀번호</label>
       <input class="login-input" type="password" id="login-pw" placeholder="비밀번호를 입력해요" autocomplete="current-password" />
       <p class="login-error-msg" id="login-error"></p>
@@ -715,30 +550,11 @@
       <div class="topbar-title">📅 노캘린더</div>
       <div class="topbar-en">RoCalendar</div>
     </div>
-    <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
-      <span class="user-greeting"><strong id="user-name-display"></strong>님</span>
-      <button class="logout-btn" id="logout-btn">로그아웃</button>
-    </div>
-  </div>
-
-  <!-- SUMMARY -->
-  <div class="summary-wrap">
-    <div class="summary-paper">
-      <div class="summary-stat">
-        <span class="summary-stat-num" id="sum-total">0</span>
-        <span class="summary-stat-label">2026년 전체 일정</span>
-      </div>
-      <div class="summary-divider"></div>
-      <div class="summary-months">
-        <div class="summary-months-label">월별 현황</div>
-        <div class="month-strip" id="month-strip"></div>
-      </div>
-      <div class="summary-divider"></div>
-      <div class="summary-next">
-        <div class="summary-next-label">다음 일정</div>
-        <div id="next-event-box"></div>
-      </div>
-    </div>
+    <div class="topbar-spacer"></div>
+    <button class="drawer-toggle" id="left-toggle" title="요약 · 공지사항">☰ 메뉴</button>
+    <button class="drawer-toggle" id="right-toggle" title="이번달 일정 목록">목록 ▷</button>
+    <span class="user-greeting"><strong id="user-name-display"></strong>님</span>
+    <button class="logout-btn" id="logout-btn">로그아웃</button>
   </div>
 
   <!-- MONTH NAV -->
@@ -769,11 +585,76 @@
     <div class="footer-line"></div>
   </footer>
 
+  <!-- DRAWER BACKDROP -->
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+
+  <!-- LEFT DRAWER -->
+  <div class="drawer drawer-left" id="drawer-left">
+    <div class="drawer-head">
+      <div class="drawer-head-row">
+        <span class="drawer-head-title">노캘린더</span>
+        <button class="drawer-close" id="left-close">✕</button>
+      </div>
+      <div class="drawer-rule"></div>
+      <div class="drawer-tabs">
+        <button class="drawer-tab active" data-tab="summary">📊 요약</button>
+        <button class="drawer-tab" data-tab="notice">📢 공지사항</button>
+      </div>
+    </div>
+
+    <!-- 요약 탭 -->
+    <div class="drawer-panel active" id="tab-summary">
+      <div class="sum-section">
+        <div class="sum-section-label">2026년 전체</div>
+        <div class="sum-big" id="sum-total">0</div>
+        <div class="sum-big-label">개의 일정</div>
+      </div>
+      <div class="sum-rule"></div>
+      <div class="sum-section">
+        <div class="sum-section-label">월별 일정 현황</div>
+        <div class="month-sum-grid" id="month-sum-grid"></div>
+      </div>
+      <div class="sum-rule"></div>
+      <div class="sum-section">
+        <div class="sum-section-label">다음 일정</div>
+        <div id="next-event-box"></div>
+      </div>
+    </div>
+
+    <!-- 공지사항 탭 -->
+    <div class="drawer-panel" id="tab-notice">
+      <div class="notice-list" id="notice-list">
+        <div class="notice-empty">아직 공지사항이 없어요 ✦</div>
+      </div>
+      <div class="notice-form">
+        <div class="notice-form-label">새 공지사항 남기기</div>
+        <textarea class="notice-textarea" id="notice-input" rows="3"
+          placeholder="가족에게 전할 말을 적어요"></textarea>
+        <button class="notice-submit" id="notice-submit">공지 올리기 ↑</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT DRAWER -->
+  <div class="drawer drawer-right" id="drawer-right">
+    <div class="drawer-head">
+      <div class="drawer-head-row">
+        <span class="drawer-head-title" id="right-drawer-title">이번달 일정</span>
+        <button class="drawer-close" id="right-close">✕</button>
+      </div>
+      <div class="drawer-rule"></div>
+    </div>
+    <div class="right-drawer-body">
+      <div id="right-month-label" class="right-month-label"></div>
+      <div id="right-event-list"></div>
+    </div>
+  </div>
+
   <!-- ADD EVENT MODAL -->
   <div class="modal-overlay" id="add-modal">
     <div class="modal">
       <div class="modal-date" id="modal-date-label"></div>
-      <div class="modal-title">일정 추가</div>
+      <div class="modal-title" id="add-modal-title">일정 추가</div>
       <label>일정 이름</label>
       <input type="text" id="event-title" placeholder="예: 가족 외식, 엄마 생일" maxlength="30" />
       <label>시간 (선택)</label>
@@ -804,8 +685,10 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-    import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot }
-      from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+    import {
+      getFirestore, collection, doc, setDoc, deleteDoc,
+      onSnapshot, addDoc, serverTimestamp, orderBy, query, limit
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
     import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut }
       from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
@@ -818,47 +701,64 @@
       appId: "1:978374324158:web:a9756cc7aaa5888ef913ef"
     };
 
-    const app  = initializeApp(firebaseConfig);
-    const db   = getFirestore(app);
-    const auth = getAuth(app);
-    const CAL  = collection(db, 'calendar');
+    const app    = initializeApp(firebaseConfig);
+    const db     = getFirestore(app);
+    const auth   = getAuth(app);
+    const CAL    = collection(db, 'calendar');
+    const NOTICE = collection(db, 'announcements');
     const SUFFIX = '@ro.archive';
 
-    // 메모리 캐시 — onSnapshot이 항상 최신 상태 유지
     let eventsCache = {};
+    let currentUser = null;
 
-    function loadEvents() { return eventsCache; }
-
-    async function saveDateEvents(dateKey, items) {
-      const ref = doc(db, 'calendar', dateKey);
-      if (items.length === 0) {
-        await deleteDoc(ref);
-      } else {
-        await setDoc(ref, { items });
-      }
-    }
-
-    const COLORS = [
-      '#C96B2E', '#5E9460', '#4D7FA8',
-      '#B56070', '#7A6840', '#8A6BAA'
-    ];
-
-    // state
+    const COLORS = ['#C96B2E','#5E9460','#4D7FA8','#B56070','#7A6840','#8A6BAA'];
+    const MONTHS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
     const today = new Date();
-    let cur = { year: 2026, month: 0 }; // Jan 2026
-
-    // set to current month if we're in 2026
-    if (today.getFullYear() === 2026) {
-      cur.month = today.getMonth();
-    }
-
-    const MONTHS = ['1월','2월','3월','4월','5월','6월',
-                    '7월','8월','9월','10월','11월','12월'];
+    let cur = { year: 2026, month: today.getFullYear() === 2026 ? today.getMonth() : 0 };
 
     function dateKey(y, m, d) {
       return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     }
 
+    // ── DRAWER ──
+    function openDrawer(side) {
+      closeAllDrawers();
+      document.getElementById(`drawer-${side}`).classList.add('open');
+      document.getElementById(`${side}-toggle`).classList.add('active');
+      document.getElementById('drawer-backdrop').classList.add('open');
+    }
+    function closeAllDrawers() {
+      ['left','right'].forEach(s => {
+        document.getElementById(`drawer-${s}`).classList.remove('open');
+        document.getElementById(`${s}-toggle`).classList.remove('active');
+      });
+      document.getElementById('drawer-backdrop').classList.remove('open');
+    }
+
+    document.getElementById('left-toggle').addEventListener('click', () => {
+      document.getElementById('drawer-left').classList.contains('open')
+        ? closeAllDrawers() : openDrawer('left');
+    });
+    document.getElementById('right-toggle').addEventListener('click', () => {
+      document.getElementById('drawer-right').classList.contains('open')
+        ? closeAllDrawers() : openDrawer('right');
+      renderRightDrawer();
+    });
+    document.getElementById('left-close').addEventListener('click', closeAllDrawers);
+    document.getElementById('right-close').addEventListener('click', closeAllDrawers);
+    document.getElementById('drawer-backdrop').addEventListener('click', closeAllDrawers);
+
+    // ── LEFT DRAWER TABS ──
+    document.querySelectorAll('.drawer-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.drawer-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.drawer-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(`tab-${tab.dataset.tab}`).classList.add('active');
+      });
+    });
+
+    // ── CALENDAR ──
     function renderCalendar() {
       const { year, month } = cur;
       document.getElementById('label-year').textContent = year + '년';
@@ -866,12 +766,9 @@
 
       const grid = document.getElementById('cal-grid');
       grid.innerHTML = '';
-
-      const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+      const firstDay = new Date(year, month, 1).getDay();
       const daysInMonth = new Date(year, month + 1, 0).getDate();
-      const events = loadEvents();
 
-      // empty cells
       for (let i = 0; i < firstDay; i++) {
         const empty = document.createElement('div');
         empty.className = 'cal-day empty';
@@ -884,14 +781,11 @@
         cell.className = 'cal-day';
         if (dow === 0) cell.classList.add('sunday');
         if (dow === 6) cell.classList.add('saturday');
-
-        const isToday = (today.getFullYear() === year &&
-                         today.getMonth() === month &&
-                         today.getDate() === d);
-        if (isToday) cell.classList.add('today');
+        if (today.getFullYear() === year && today.getMonth() === month && today.getDate() === d)
+          cell.classList.add('today');
 
         const key = dateKey(year, month, d);
-        const dayEvents = events[key] || [];
+        const dayEvents = eventsCache[key] || [];
         if (dayEvents.length > 0) cell.classList.add('has-event');
 
         const numEl = document.createElement('div');
@@ -901,17 +795,14 @@
 
         const evWrap = document.createElement('div');
         evWrap.className = 'day-events';
-        const showCount = Math.min(dayEvents.length, 3);
-        for (let e = 0; e < showCount; e++) {
+        const show = Math.min(dayEvents.length, 3);
+        for (let e = 0; e < show; e++) {
           const ev = dayEvents[e];
           const chip = document.createElement('div');
           chip.className = 'event-chip';
           chip.style.background = ev.color || COLORS[0];
           chip.textContent = (ev.time ? ev.time + ' ' : '') + ev.title;
-          chip.addEventListener('click', (e) => {
-            e.stopPropagation();
-            openViewModal(year, month, d);
-          });
+          chip.addEventListener('click', (evt) => { evt.stopPropagation(); openViewModal(year, month, d); });
           evWrap.appendChild(chip);
         }
         if (dayEvents.length > 3) {
@@ -922,159 +813,18 @@
           evWrap.appendChild(more);
         }
         cell.appendChild(evWrap);
-
         cell.addEventListener('click', () => openViewModal(year, month, d));
         grid.appendChild(cell);
       }
     }
 
-    // ── ADD MODAL ──
-    let addTarget = null;
-    let selectedColor = COLORS[0];
-
-    function setupColorRow() {
-      const row = document.getElementById('color-row');
-      row.innerHTML = '';
-      COLORS.forEach((c, i) => {
-        const dot = document.createElement('div');
-        dot.className = 'color-dot' + (i === 0 ? ' selected' : '');
-        dot.style.background = c;
-        dot.dataset.color = c;
-        dot.addEventListener('click', () => {
-          document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('selected'));
-          dot.classList.add('selected');
-          selectedColor = c;
-        });
-        row.appendChild(dot);
-      });
-      selectedColor = COLORS[0];
-    }
-
-    function openAddModal(year, month, day) {
-      addTarget = { year, month, day };
-      document.getElementById('modal-date-label').textContent =
-        `${year}년 ${MONTHS[month]} ${day}일`;
-      document.getElementById('event-title').value = '';
-      document.getElementById('event-time').value = '';
-      document.getElementById('event-memo').value = '';
-      setupColorRow();
-      document.getElementById('add-modal').classList.add('open');
-      setTimeout(() => document.getElementById('event-title').focus(), 100);
-    }
-
-    document.getElementById('add-cancel').addEventListener('click', () => {
-      document.getElementById('add-modal').classList.remove('open');
-    });
-
-    document.getElementById('add-save').addEventListener('click', async () => {
-      const title = document.getElementById('event-title').value.trim();
-      if (!title) { document.getElementById('event-title').focus(); return; }
-      const time  = document.getElementById('event-time').value;
-      const memo  = document.getElementById('event-memo').value.trim();
-      const { year, month, day } = addTarget;
-      const key = dateKey(year, month, day);
-      const items = [...(eventsCache[key] || [])];
-      items.push({ title, time, memo, color: selectedColor, id: Date.now() });
-      items.sort((a, b) => (a.time || '99:99').localeCompare(b.time || '99:99'));
-      document.getElementById('add-modal').classList.remove('open');
-      await saveDateEvents(key, items);
-      // onSnapshot이 자동으로 renderCalendar/renderSummary 호출
-    });
-
-    // close on overlay click
-    document.getElementById('add-modal').addEventListener('click', function(e) {
-      if (e.target === this) this.classList.remove('open');
-    });
-
-    // ── VIEW MODAL ──
-    function openViewModal(year, month, day) {
-      const key = dateKey(year, month, day);
-      const events = loadEvents();
-      const dayEvents = events[key] || [];
-
-      document.getElementById('view-date-label').textContent =
-        `${year}년 ${MONTHS[month]} ${day}일`;
-      document.getElementById('view-month-day').textContent =
-        dayEvents.length > 0 ? `${dayEvents.length}개의 일정` : '일정이 없어요';
-
-      const list = document.getElementById('event-list');
-      list.innerHTML = '';
-
-      dayEvents.forEach((ev) => {
-        const item = document.createElement('div');
-        item.className = 'event-item';
-
-        const dot = document.createElement('div');
-        dot.className = 'event-item-dot';
-        dot.style.background = ev.color || COLORS[0];
-
-        const body = document.createElement('div');
-        body.className = 'event-item-body';
-        body.innerHTML = `<div class="detail-event-title">${ev.title}</div>` +
-          (ev.time ? `<div class="detail-event-time">⏰ ${ev.time}</div>` : '') +
-          (ev.memo ? `<div class="detail-event-memo">${ev.memo}</div>` : '');
-
-        const del = document.createElement('button');
-        del.className = 'event-item-delete';
-        del.textContent = '✕';
-        del.title = '삭제';
-        del.addEventListener('click', async () => {
-          const updated = (eventsCache[key] || []).filter(e => e.id !== ev.id);
-          await saveDateEvents(key, updated);
-          openViewModal(year, month, day);
-          // onSnapshot이 자동으로 renderCalendar/renderSummary 호출
-        });
-
-        item.appendChild(dot);
-        item.appendChild(body);
-        item.appendChild(del);
-        list.appendChild(item);
-      });
-
-      document.getElementById('view-modal').classList.add('open');
-
-      document.getElementById('view-add-btn').onclick = () => {
-        document.getElementById('view-modal').classList.remove('open');
-        openAddModal(year, month, day);
-      };
-    }
-
-    document.getElementById('view-close').addEventListener('click', () => {
-      document.getElementById('view-modal').classList.remove('open');
-    });
-    document.getElementById('view-modal').addEventListener('click', function(e) {
-      if (e.target === this) this.classList.remove('open');
-    });
-
-    // ── NAV ──
-    document.getElementById('prev-btn').addEventListener('click', () => {
-      cur.month--;
-      if (cur.month < 0) { cur.month = 11; cur.year--; }
-      renderCalendar();
-    });
-    document.getElementById('next-btn').addEventListener('click', () => {
-      cur.month++;
-      if (cur.month > 11) { cur.month = 0; cur.year++; }
-      renderCalendar();
-    });
-
-    // enter to save
-    document.getElementById('event-title').addEventListener('keydown', e => {
-      if (e.key === 'Enter') document.getElementById('add-save').click();
-    });
-
-    // ── SUMMARY ──
+    // ── SUMMARY (left drawer) ──
     function renderSummary() {
-      const events = loadEvents();
-      const MONTHS_SHORT = ['1월','2월','3월','4월','5월','6월',
-                            '7월','8월','9월','10월','11월','12월'];
-
-      // total 2026 events
       let total = 0;
       const monthCounts = Array(12).fill(0);
       const monthColors = Array.from({length:12}, () => []);
 
-      Object.entries(events).forEach(([key, evArr]) => {
+      Object.entries(eventsCache).forEach(([key, evArr]) => {
         const [y, m] = key.split('-').map(Number);
         if (y !== 2026) return;
         total += evArr.length;
@@ -1084,85 +834,348 @@
 
       document.getElementById('sum-total').textContent = total;
 
-      // month strip
-      const strip = document.getElementById('month-strip');
-      strip.innerHTML = '';
-      MONTHS_SHORT.forEach((name, i) => {
-        const pip = document.createElement('div');
-        pip.className = 'month-pip' + (i === cur.month ? ' active' : '');
-        pip.innerHTML = `<span class="pip-name">${name}</span>`;
-        const dotsWrap = document.createElement('div');
-        dotsWrap.className = 'pip-dots';
-        if (monthCounts[i] === 0) {
-          const empty = document.createElement('div');
-          empty.className = 'pip-empty';
-          dotsWrap.appendChild(empty);
-        } else {
-          const show = Math.min(monthCounts[i], 4);
-          const colors = monthColors[i];
-          for (let d = 0; d < show; d++) {
+      // 4×3 grid
+      const grid = document.getElementById('month-sum-grid');
+      grid.innerHTML = '';
+      MONTHS.forEach((name, i) => {
+        const cell = document.createElement('div');
+        cell.className = 'month-sum-cell' + (i === cur.month ? ' active' : '');
+
+        const nameEl = document.createElement('div');
+        nameEl.className = 'msc-name';
+        nameEl.textContent = name;
+
+        const countEl = document.createElement('div');
+        countEl.className = 'msc-count' + (monthCounts[i] > 0 ? ' has' : '');
+        countEl.textContent = monthCounts[i] || '–';
+
+        const dotsEl = document.createElement('div');
+        dotsEl.className = 'msc-dots';
+        if (monthCounts[i] > 0) {
+          Math.min(monthCounts[i], 4);
+          monthColors[i].slice(0, 4).forEach(c => {
             const dot = document.createElement('div');
-            dot.className = 'pip-dot';
-            dot.style.background = colors[d] || 'var(--accent)';
-            dotsWrap.appendChild(dot);
-          }
+            dot.className = 'msc-dot';
+            dot.style.background = c;
+            dotsEl.appendChild(dot);
+          });
         }
-        pip.appendChild(dotsWrap);
-        pip.addEventListener('click', () => {
+
+        cell.appendChild(nameEl);
+        cell.appendChild(countEl);
+        cell.appendChild(dotsEl);
+        cell.addEventListener('click', () => {
           cur.year = 2026; cur.month = i;
           renderCalendar();
           renderSummary();
+          if (document.getElementById('drawer-right').classList.contains('open'))
+            renderRightDrawer();
         });
-        strip.appendChild(pip);
+        grid.appendChild(cell);
       });
 
-      // next upcoming event (from today)
+      // next event
       const box = document.getElementById('next-event-box');
       const todayStr = dateKey(today.getFullYear(), today.getMonth(), today.getDate());
       let nextKey = null, nextEv = null;
-      const sortedKeys = Object.keys(events)
-        .filter(k => k >= todayStr)
-        .sort();
-      for (const k of sortedKeys) {
-        if (events[k] && events[k].length > 0) {
-          nextKey = k; nextEv = events[k][0]; break;
+      for (const k of Object.keys(eventsCache).filter(k => k >= todayStr).sort()) {
+        if (eventsCache[k] && eventsCache[k].length > 0) {
+          nextKey = k; nextEv = eventsCache[k][0]; break;
         }
       }
       if (nextEv && nextKey) {
         const [y, m, d] = nextKey.split('-').map(Number);
         box.innerHTML = `
-          <div class="next-event-date">${y}년 ${MONTHS_SHORT[m-1]} ${d}일${nextEv.time ? ' · ' + nextEv.time : ''}</div>
-          <div class="next-event-title" style="color:${nextEv.color || 'var(--ink)'}">
-            ${nextEv.title}
+          <div class="next-event-card">
+            <div class="next-event-when">${y}년 ${MONTHS[m-1]} ${d}일${nextEv.time ? ' · ' + nextEv.time : ''}</div>
+            <div class="next-event-name" style="color:${nextEv.color||'var(--ink)'};">${nextEv.title}</div>
           </div>`;
       } else {
-        box.innerHTML = `<div class="next-event-empty">등록된 일정이 없어요</div>`;
+        box.innerHTML = `<div class="next-event-empty">등록된 예정 일정이 없어요</div>`;
       }
     }
 
-    // 로그인 상태 감지
+    // ── RIGHT DRAWER: MONTH EVENTS ──
+    function renderRightDrawer() {
+      const { year, month } = cur;
+      document.getElementById('right-drawer-title').textContent =
+        `${year}년 ${MONTHS[month]}`;
+      document.getElementById('right-month-label').textContent =
+        `${MONTHS[month]} 일정 목록`;
+
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const listEl = document.getElementById('right-event-list');
+      listEl.innerHTML = '';
+
+      let hasAny = false;
+      for (let d = 1; d <= daysInMonth; d++) {
+        const key = dateKey(year, month, d);
+        const dayEvents = eventsCache[key] || [];
+        if (dayEvents.length === 0) continue;
+        hasAny = true;
+
+        const dow = new Date(year, month, d).getDay();
+        const dowLabels = ['일','월','화','수','목','금','토'];
+        const group = document.createElement('div');
+        group.className = 'right-day-group';
+
+        const header = document.createElement('div');
+        header.className = 'right-day-header';
+        header.textContent = `${d}일 (${dowLabels[dow]})`;
+        group.appendChild(header);
+
+        dayEvents.forEach(ev => {
+          const item = document.createElement('div');
+          item.className = 'right-event-item';
+
+          const dot = document.createElement('div');
+          dot.className = 'right-event-dot';
+          dot.style.background = ev.color || COLORS[0];
+
+          const body = document.createElement('div');
+          body.className = 'right-event-body';
+          body.innerHTML = `<div class="right-event-title">${ev.title}</div>` +
+            (ev.time ? `<div class="right-event-time">⏰ ${ev.time}</div>` : '');
+
+          item.appendChild(dot);
+          item.appendChild(body);
+          item.addEventListener('click', () => {
+            closeAllDrawers();
+            openViewModal(year, month, d);
+          });
+          group.appendChild(item);
+        });
+        listEl.appendChild(group);
+      }
+
+      if (!hasAny) {
+        listEl.innerHTML = `<div class="right-empty">이번달엔 일정이 없어요 ☁️</div>`;
+      }
+    }
+
+    // ── ADD MODAL ──
+    let addTarget = null, selectedColor = COLORS[0];
+
+    function setupColorRow(initColor = null) {
+      selectedColor = initColor || COLORS[0];
+      const row = document.getElementById('color-row');
+      row.innerHTML = '';
+      COLORS.forEach(c => {
+        const dot = document.createElement('div');
+        dot.className = 'color-dot' + (c === selectedColor ? ' selected' : '');
+        dot.style.background = c;
+        dot.addEventListener('click', () => {
+          document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('selected'));
+          dot.classList.add('selected');
+          selectedColor = c;
+        });
+        row.appendChild(dot);
+      });
+    }
+
+    function openAddModal(year, month, day, editEvent = null) {
+      addTarget = { year, month, day, editId: editEvent ? editEvent.id : null };
+      document.getElementById('add-modal-title').textContent = editEvent ? '일정 수정' : '일정 추가';
+      document.getElementById('modal-date-label').textContent = `${year}년 ${MONTHS[month]} ${day}일`;
+      document.getElementById('event-title').value = editEvent ? editEvent.title : '';
+      document.getElementById('event-time').value  = editEvent ? (editEvent.time || '') : '';
+      document.getElementById('event-memo').value  = editEvent ? (editEvent.memo || '') : '';
+      setupColorRow(editEvent ? editEvent.color : null);
+      document.getElementById('add-modal').classList.add('open');
+      setTimeout(() => document.getElementById('event-title').focus(), 100);
+    }
+
+    document.getElementById('add-cancel').addEventListener('click', () =>
+      document.getElementById('add-modal').classList.remove('open'));
+    document.getElementById('add-modal').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('open');
+    });
+
+    document.getElementById('add-save').addEventListener('click', async () => {
+      const title = document.getElementById('event-title').value.trim();
+      if (!title) { document.getElementById('event-title').focus(); return; }
+      const time = document.getElementById('event-time').value;
+      const memo = document.getElementById('event-memo').value.trim();
+      const { year, month, day, editId } = addTarget;
+      const key = dateKey(year, month, day);
+      let items = [...(eventsCache[key] || [])];
+
+      if (editId !== null) {
+        items = items.map(e =>
+          String(e.id) === String(editId)
+            ? { ...e, title, time, memo, color: selectedColor } : e);
+      } else {
+        items.push({ title, time, memo, color: selectedColor, id: Date.now() });
+      }
+      items.sort((a, b) => (a.time || '99:99').localeCompare(b.time || '99:99'));
+      document.getElementById('add-modal').classList.remove('open');
+      const ref = doc(db, 'calendar', key);
+      if (items.length === 0) await deleteDoc(ref);
+      else await setDoc(ref, { items });
+    });
+
+    document.getElementById('event-title').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('add-save').click();
+    });
+
+    // ── VIEW MODAL ──
+    function openViewModal(year, month, day) {
+      const key = dateKey(year, month, day);
+      const dayEvents = eventsCache[key] || [];
+
+      document.getElementById('view-date-label').textContent = `${year}년 ${MONTHS[month]} ${day}일`;
+      document.getElementById('view-month-day').textContent =
+        dayEvents.length > 0 ? `${dayEvents.length}개의 일정` : '일정이 없어요';
+
+      const list = document.getElementById('event-list');
+      list.innerHTML = '';
+      dayEvents.forEach(ev => {
+        const item = document.createElement('div');
+        item.className = 'event-item';
+        const dot = document.createElement('div');
+        dot.className = 'event-item-dot'; dot.style.background = ev.color || COLORS[0];
+        const body = document.createElement('div');
+        body.className = 'event-item-body';
+        body.innerHTML = `<div class="detail-event-title">${ev.title}</div>` +
+          (ev.time ? `<div class="detail-event-time">⏰ ${ev.time}</div>` : '') +
+          (ev.memo ? `<div class="detail-event-memo">${ev.memo}</div>` : '');
+        const actions = document.createElement('div');
+        actions.className = 'event-item-actions';
+        const editBtn = document.createElement('button');
+        editBtn.className = 'event-item-edit'; editBtn.textContent = '✏️'; editBtn.title = '수정';
+        editBtn.addEventListener('click', () => {
+          document.getElementById('view-modal').classList.remove('open');
+          openAddModal(year, month, day, ev);
+        });
+        const del = document.createElement('button');
+        del.className = 'event-item-delete'; del.textContent = '✕'; del.title = '삭제';
+        del.addEventListener('click', async () => {
+          const updated = (eventsCache[key] || []).filter(e => String(e.id) !== String(ev.id));
+          eventsCache[key] = updated;
+          openViewModal(year, month, day);
+          const ref = doc(db, 'calendar', key);
+          if (updated.length === 0) await deleteDoc(ref);
+          else await setDoc(ref, { items: updated });
+        });
+        actions.appendChild(editBtn); actions.appendChild(del);
+        item.appendChild(dot); item.appendChild(body); item.appendChild(actions);
+        list.appendChild(item);
+      });
+
+      document.getElementById('view-modal').classList.add('open');
+      document.getElementById('view-add-btn').onclick = () => {
+        document.getElementById('view-modal').classList.remove('open');
+        openAddModal(year, month, day);
+      };
+    }
+
+    document.getElementById('view-close').addEventListener('click', () =>
+      document.getElementById('view-modal').classList.remove('open'));
+    document.getElementById('view-modal').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('open');
+    });
+
+    // ── NAV ──
+    document.getElementById('prev-btn').addEventListener('click', () => {
+      cur.month--; if (cur.month < 0) { cur.month = 11; cur.year--; }
+      renderCalendar(); renderSummary();
+      if (document.getElementById('drawer-right').classList.contains('open')) renderRightDrawer();
+    });
+    document.getElementById('next-btn').addEventListener('click', () => {
+      cur.month++; if (cur.month > 11) { cur.month = 0; cur.year++; }
+      renderCalendar(); renderSummary();
+      if (document.getElementById('drawer-right').classList.contains('open')) renderRightDrawer();
+    });
+
+    // ── NOTICES ──
+    function renderNotices(docs) {
+      const list = document.getElementById('notice-list');
+      list.innerHTML = '';
+      if (docs.length === 0) {
+        list.innerHTML = `<div class="notice-empty">아직 공지사항이 없어요 ✦</div>`;
+        return;
+      }
+      docs.forEach(d => {
+        const data = d.data();
+        const item = document.createElement('div');
+        item.className = 'notice-item';
+
+        const top = document.createElement('div');
+        top.className = 'notice-item-top';
+        const author = document.createElement('div');
+        author.className = 'notice-author'; author.textContent = data.author;
+        const delBtn = document.createElement('button');
+        delBtn.className = 'notice-del'; delBtn.textContent = '✕'; delBtn.title = '삭제';
+        // 본인 글만 삭제 가능
+        if (currentUser && data.author !== currentUser.email.replace(SUFFIX, '')) {
+          delBtn.style.display = 'none';
+        }
+        delBtn.addEventListener('click', async () => await deleteDoc(doc(db, 'announcements', d.id)));
+        top.appendChild(author); top.appendChild(delBtn);
+
+        const text = document.createElement('div');
+        text.className = 'notice-text'; text.textContent = data.text;
+
+        const time = document.createElement('div');
+        time.className = 'notice-time';
+        if (data.timestamp) {
+          const ts = data.timestamp.toDate();
+          time.textContent = ts.toLocaleDateString('ko-KR', {month:'short', day:'numeric'}) +
+            ' ' + ts.toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'});
+        }
+
+        item.appendChild(top); item.appendChild(text); item.appendChild(time);
+        list.appendChild(item);
+      });
+    }
+
+    document.getElementById('notice-submit').addEventListener('click', async () => {
+      const text = document.getElementById('notice-input').value.trim();
+      if (!text || !currentUser) return;
+      const btn = document.getElementById('notice-submit');
+      btn.disabled = true;
+      await addDoc(NOTICE, {
+        text,
+        author: currentUser.email.replace(SUFFIX, ''),
+        timestamp: serverTimestamp()
+      });
+      document.getElementById('notice-input').value = '';
+      btn.disabled = false;
+    });
+    document.getElementById('notice-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        document.getElementById('notice-submit').click();
+      }
+    });
+
+    // ── AUTH & FIREBASE ──
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        currentUser = user;
         document.getElementById('login-overlay').style.display = 'none';
         document.body.classList.remove('logged-out');
-        document.getElementById('user-name-display').textContent =
-          user.email.replace(SUFFIX, '');
-        // Firebase 실시간 동기화 — 로그인 후에만 시작
+        document.getElementById('user-name-display').textContent = user.email.replace(SUFFIX, '');
+
+        // 캘린더 실시간 동기화
         onSnapshot(CAL, (snapshot) => {
           eventsCache = {};
-          snapshot.forEach(docSnap => {
-            eventsCache[docSnap.id] = docSnap.data().items || [];
-          });
-          renderCalendar();
-          renderSummary();
+          snapshot.forEach(docSnap => { eventsCache[docSnap.id] = docSnap.data().items || []; });
+          renderCalendar(); renderSummary();
+          if (document.getElementById('drawer-right').classList.contains('open')) renderRightDrawer();
+        });
+
+        // 공지사항 실시간 동기화
+        onSnapshot(query(NOTICE, orderBy('timestamp', 'desc'), limit(50)), (snapshot) => {
+          renderNotices(snapshot.docs);
         });
       } else {
+        currentUser = null;
         document.getElementById('login-overlay').style.display = 'flex';
         document.body.classList.add('logged-out');
       }
     });
 
-    // 로그인
     document.getElementById('login-btn').addEventListener('click', async () => {
       const name = document.getElementById('login-name').value.trim();
       const pw   = document.getElementById('login-pw').value;

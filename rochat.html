@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>노챗 — RoChat</title>
+  <style>
+    @font-face { font-family: '오복상회'; src: url('fonts/오복상회R.woff2') format('woff2'); font-weight: 400; }
+    @font-face { font-family: '오복상회'; src: url('fonts/오복상회L.woff2') format('woff2'); font-weight: 300; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕1.woff2') format('woff2'); font-weight: 100; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕2.woff2') format('woff2'); font-weight: 200; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕3.woff2') format('woff2'); font-weight: 300; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕4.woff2') format('woff2'); font-weight: 400; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕5.woff2') format('woff2'); font-weight: 500; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕6.woff2') format('woff2'); font-weight: 700; }
+    @font-face { font-family: '드림고딕'; src: url('fonts/드림고딕7.woff2') format('woff2'); font-weight: 900; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #F2EAD8;
+      --paper:  #FBF6EC;
+      --ink:    #2C1E14;
+      --mid:    #7A5C44;
+      --faint:  #B09880;
+      --rule:   #DDD0B8;
+      --accent: #C96B2E;
+      --chat:   #7B6BAA;
+    }
+
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      font-family: '드림고딕', sans-serif;
+      font-weight: 400;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── LOGIN ── */
+    body.logged-out > *:not(#login-overlay) { display: none !important; }
+    #login-overlay {
+      position: fixed; inset: 0; background: var(--bg);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+      z-index: 200; display: flex; align-items: center; justify-content: center; padding: 24px;
+    }
+    .login-card {
+      background: var(--paper); border-radius: 3px; padding: 40px 32px 32px;
+      width: 100%; max-width: 340px; position: relative;
+      box-shadow: 1px 1px 0 #d9cdb7, 2px 2px 0 #cfc3aa, 3px 3px 0 #c5b99e, 4px 5px 18px rgba(60,30,10,0.14);
+    }
+    .login-tape {
+      position: absolute; top: -11px; left: 50%;
+      transform: translateX(-50%) rotate(-1deg);
+      width: 52px; height: 22px; background: rgba(210,185,140,0.55); border-radius: 2px;
+    }
+    .login-brand-label { font-family: '드림고딕', sans-serif; font-weight: 300; font-size: 0.75rem; color: var(--faint); letter-spacing: 0.16em; margin-bottom: 4px; }
+    .login-brand-title { font-family: '오복상회', sans-serif; font-weight: 400; font-size: 2.6rem; color: var(--ink); line-height: 0.95; }
+    .login-brand-title .lo-accent { color: #B5622A; }
+    .login-brand-en { font-family: '오복상회', sans-serif; font-weight: 300; font-size: 0.9rem; color: var(--mid); letter-spacing: 0.14em; margin-top: 3px; margin-bottom: 18px; }
+    .login-rule { height: 1.5px; background: var(--rule); margin-bottom: 22px; }
+    .login-field-label { display: block; font-family: '드림고딕', sans-serif; font-weight: 300; font-size: 0.76rem; color: var(--mid); margin-bottom: 5px; margin-top: 12px; }
+    .login-field-label:first-of-type { margin-top: 0; }
+    .login-input { width: 100%; font-family: '드림고딕', sans-serif; font-weight: 400; font-size: 0.9rem; color: var(--ink); background: var(--bg); border: 1.5px solid var(--rule); border-radius: 3px; padding: 10px 12px; outline: none; transition: border-color 0.2s; -webkit-appearance: none; }
+    .login-input:focus { border-color: var(--accent); }
+    .login-error-msg { font-family: '드림고딕', sans-serif; font-weight: 300; font-size: 0.76rem; color: #C07070; min-height: 16px; margin-top: 7px; }
+    .login-submit { width: 100%; margin-top: 16px; font-family: '드림고딕', sans-serif; font-weight: 500; font-size: 0.9rem; background: var(--accent); color: #fff; border: none; border-radius: 3px; padding: 12px; cursor: pointer; transition: opacity 0.2s; }
+    .login-submit:hover { opacity: 0.85; }
+    .login-submit:disabled { opacity: 0.6; cursor: default; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      flex-shrink: 0;
+      background: var(--paper);
+      border-bottom: 1.5px solid var(--rule);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 1px 6px rgba(60,30,10,0.06);
+    }
+    .back-btn {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.8rem; color: var(--faint); text-decoration: none;
+      border: 1.5px dashed var(--rule); border-radius: 4px; padding: 4px 10px;
+      white-space: nowrap; transition: color 0.2s, border-color 0.2s;
+    }
+    .back-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .topbar-info { display: flex; flex-direction: column; gap: 1px; }
+    .topbar-title { font-family: '오복상회', sans-serif; font-size: 1.3rem; color: var(--ink); line-height: 1; }
+    .topbar-en { font-family: '오복상회', sans-serif; font-size: 0.72rem; color: var(--faint); letter-spacing: 0.1em; }
+    .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .user-greeting { font-family: '드림고딕', sans-serif; font-weight: 300; font-size: 0.78rem; color: var(--mid); }
+    .user-greeting strong { font-weight: 500; color: var(--ink); }
+    .logout-btn { font-family: '드림고딕', sans-serif; font-weight: 300; font-size: 0.72rem; color: var(--faint); background: none; border: 1px dashed var(--rule); border-radius: 3px; padding: 3px 9px; cursor: pointer; }
+    .logout-btn:hover { color: var(--ink); }
+
+    /* ── CHAT AREA ── */
+    .chat-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      scroll-behavior: smooth;
+    }
+    .chat-area::-webkit-scrollbar { width: 4px; }
+    .chat-area::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 2px; }
+
+    /* 날짜 구분선 */
+    .date-divider {
+      display: flex; align-items: center; gap: 10px; margin: 6px 0;
+    }
+    .date-divider-line { flex: 1; height: 1px; background: var(--rule); }
+    .date-divider-text {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.68rem; color: var(--faint); white-space: nowrap;
+    }
+
+    /* 메시지 */
+    .msg-wrap {
+      display: flex; flex-direction: column;
+      max-width: 72%;
+    }
+    .msg-wrap.self { align-self: flex-end; align-items: flex-end; }
+    .msg-wrap.other { align-self: flex-start; align-items: flex-start; }
+
+    .msg-name {
+      font-family: '드림고딕', sans-serif; font-weight: 500;
+      font-size: 0.68rem; color: var(--mid);
+      margin-bottom: 3px; padding: 0 5px;
+    }
+    .msg-bubble {
+      background: var(--paper);
+      border: 1.5px solid var(--rule);
+      border-radius: 16px 16px 16px 4px;
+      padding: 9px 14px;
+      font-family: '드림고딕', sans-serif; font-weight: 400;
+      font-size: 0.88rem; line-height: 1.55;
+      color: var(--ink); word-break: break-word;
+      box-shadow: 0 1px 4px rgba(60,30,10,0.07);
+      white-space: pre-wrap;
+    }
+    .msg-wrap.self .msg-bubble {
+      background: var(--chat);
+      color: #fff; border-color: transparent;
+      border-radius: 16px 16px 4px 16px;
+    }
+    .msg-time {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.62rem; color: var(--faint);
+      margin-top: 4px; padding: 0 5px;
+    }
+
+    /* 빈 상태 */
+    .chat-empty {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 8px;
+    }
+    .chat-empty-icon { font-size: 2.2rem; opacity: 0.5; }
+    .chat-empty-text {
+      font-family: '드림고딕', sans-serif; font-weight: 300;
+      font-size: 0.82rem; color: var(--faint);
+    }
+
+    /* ── INPUT BAR ── */
+    .input-bar {
+      flex-shrink: 0;
+      background: var(--paper);
+      border-top: 1.5px solid var(--rule);
+      padding: 10px 16px;
+      padding-bottom: max(10px, env(safe-area-inset-bottom));
+      display: flex; gap: 10px; align-items: flex-end;
+    }
+    .chat-input {
+      flex: 1;
+      font-family: '드림고딕', sans-serif; font-weight: 400;
+      font-size: 0.9rem; color: var(--ink);
+      background: var(--bg); border: 1.5px solid var(--rule);
+      border-radius: 20px; padding: 10px 16px;
+      resize: none; outline: none;
+      max-height: 96px; overflow-y: auto;
+      transition: border-color 0.2s; line-height: 1.45;
+    }
+    .chat-input:focus { border-color: var(--chat); }
+    .send-btn {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--chat); color: #fff; border: none;
+      cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: opacity 0.2s, transform 0.12s;
+    }
+    .send-btn:hover { opacity: 0.85; }
+    .send-btn:active { transform: scale(0.9); }
+    .send-btn:disabled { opacity: 0.35; cursor: default; }
+
+    @media (max-width: 600px) {
+      .topbar { padding: 12px 14px; }
+      .chat-area { padding: 12px 14px 6px; }
+      .input-bar { padding: 8px 12px; padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+      .msg-wrap { max-width: 85%; }
+    }
+  </style>
+</head>
+<body class="logged-out">
+
+  <!-- LOGIN OVERLAY -->
+  <div id="login-overlay">
+    <div class="login-card">
+      <div class="login-tape"></div>
+      <p class="login-brand-label">노가네 가족 기록</p>
+      <h2 class="login-brand-title"><span class="lo-accent">노</span>카이브</h2>
+      <p class="login-brand-en">RoArchive</p>
+      <div class="login-rule"></div>
+      <label class="login-field-label">이름</label>
+      <input class="login-input" type="text" id="login-name" placeholder="예: 엄마, 아빠, 수민" autocomplete="username" />
+      <label class="login-field-label">비밀번호</label>
+      <input class="login-input" type="password" id="login-pw" placeholder="비밀번호를 입력해요" autocomplete="current-password" />
+      <p class="login-error-msg" id="login-error"></p>
+      <button class="login-submit" id="login-btn">들어가기 →</button>
+    </div>
+  </div>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <a class="back-btn" href="index.html">← 노카이브</a>
+    <div class="topbar-info">
+      <div class="topbar-title">💬 노챗</div>
+      <div class="topbar-en">RoChat</div>
+    </div>
+    <div class="topbar-right">
+      <span class="user-greeting"><strong id="user-name-display"></strong>님</span>
+      <button class="logout-btn" id="logout-btn">로그아웃</button>
+    </div>
+  </div>
+
+  <!-- CHAT AREA -->
+  <div class="chat-area" id="chat-area">
+    <div class="chat-empty" id="chat-empty">
+      <div class="chat-empty-icon">💬</div>
+      <div class="chat-empty-text">첫 번째 메시지를 남겨보세요</div>
+    </div>
+  </div>
+
+  <!-- INPUT BAR -->
+  <div class="input-bar">
+    <textarea class="chat-input" id="chat-input" placeholder="메시지를 입력해요..." rows="1"></textarea>
+    <button class="send-btn" id="send-btn" disabled>➤</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, limit }
+      from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut }
+      from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBhNp-LIY_7BCPEFY0R2uDFfAuXQtHC67o",
+      authDomain: "roarchive-korea.firebaseapp.com",
+      projectId: "roarchive-korea",
+      storageBucket: "roarchive-korea.firebasestorage.app",
+      messagingSenderId: "978374324158",
+      appId: "1:978374324158:web:a9756cc7aaa5888ef913ef"
+    };
+
+    const app  = initializeApp(firebaseConfig);
+    const db   = getFirestore(app);
+    const auth = getAuth(app);
+    const SUFFIX = '@ro.archive';
+
+    let myName = '';
+    let unsubChat = null;
+
+    // ── 시간 포맷 ──
+    function fmtTime(ts) {
+      if (!ts) return '';
+      const d = ts.toDate ? ts.toDate() : new Date(ts);
+      return d.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: true });
+    }
+    function fmtDate(ts) {
+      if (!ts) return '';
+      const d = ts.toDate ? ts.toDate() : new Date(ts);
+      return d.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' });
+    }
+    function dateStr(ts) {
+      if (!ts) return '';
+      const d = ts.toDate ? ts.toDate() : new Date(ts);
+      return d.toISOString().slice(0, 10);
+    }
+
+    // ── 채팅 렌더링 ──
+    function renderChat(docs) {
+      const area = document.getElementById('chat-area');
+      const empty = document.getElementById('chat-empty');
+      const wasAtBottom = area.scrollHeight - area.scrollTop - area.clientHeight < 60;
+
+      // 기존 메시지 제거 (empty 제외)
+      [...area.children].forEach(c => { if (c !== empty) c.remove(); });
+
+      if (docs.length === 0) {
+        empty.style.display = 'flex';
+        return;
+      }
+      empty.style.display = 'none';
+
+      let lastDate = '';
+      docs.forEach(docSnap => {
+        const { name, text, timestamp } = docSnap.data();
+        const curDate = dateStr(timestamp);
+
+        // 날짜 구분선
+        if (curDate && curDate !== lastDate) {
+          const div = document.createElement('div');
+          div.className = 'date-divider';
+          div.innerHTML = `<div class="date-divider-line"></div>
+            <span class="date-divider-text">${fmtDate(timestamp)}</span>
+            <div class="date-divider-line"></div>`;
+          area.appendChild(div);
+          lastDate = curDate;
+        }
+
+        const isSelf = name === myName;
+        const wrap = document.createElement('div');
+        wrap.className = 'msg-wrap ' + (isSelf ? 'self' : 'other');
+
+        if (!isSelf) {
+          const nameEl = document.createElement('div');
+          nameEl.className = 'msg-name';
+          nameEl.textContent = name;
+          wrap.appendChild(nameEl);
+        }
+
+        const bubble = document.createElement('div');
+        bubble.className = 'msg-bubble';
+        bubble.textContent = text;
+        wrap.appendChild(bubble);
+
+        const time = document.createElement('div');
+        time.className = 'msg-time';
+        time.textContent = fmtTime(timestamp);
+        wrap.appendChild(time);
+
+        area.appendChild(wrap);
+      });
+
+      if (wasAtBottom) area.scrollTop = area.scrollHeight;
+    }
+
+    // ── 채팅 구독 ──
+    function startChat() {
+      if (unsubChat) unsubChat();
+      const q = query(collection(db, 'chat'), orderBy('timestamp', 'asc'), limit(200));
+      unsubChat = onSnapshot(q, snap => {
+        renderChat(snap.docs);
+      });
+    }
+
+    // ── 메시지 전송 ──
+    async function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      input.style.height = '';
+      document.getElementById('send-btn').disabled = true;
+      try {
+        await addDoc(collection(db, 'chat'), {
+          name: myName, text, timestamp: serverTimestamp()
+        });
+        const area = document.getElementById('chat-area');
+        area.scrollTop = area.scrollHeight;
+      } catch (e) {
+        input.value = text; // 실패 시 복원
+      }
+      document.getElementById('send-btn').disabled = !input.value.trim();
+    }
+
+    // ── 입력 이벤트 ──
+    const chatInput = document.getElementById('chat-input');
+    chatInput.addEventListener('input', () => {
+      // 자동 높이 조절
+      chatInput.style.height = 'auto';
+      chatInput.style.height = Math.min(chatInput.scrollHeight, 96) + 'px';
+      document.getElementById('send-btn').disabled = !chatInput.value.trim();
+    });
+    chatInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+    document.getElementById('send-btn').addEventListener('click', sendMessage);
+
+    // ── 인증 ──
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        myName = user.email.replace(SUFFIX, '');
+        document.getElementById('login-overlay').style.display = 'none';
+        document.body.classList.remove('logged-out');
+        document.getElementById('user-name-display').textContent = myName;
+        startChat();
+      } else {
+        document.getElementById('login-overlay').style.display = 'flex';
+        document.body.classList.add('logged-out');
+        if (unsubChat) { unsubChat(); unsubChat = null; }
+      }
+    });
+
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      const name = document.getElementById('login-name').value.trim();
+      const pw   = document.getElementById('login-pw').value;
+      const err  = document.getElementById('login-error');
+      err.textContent = '';
+      if (!name || !pw) { err.textContent = '이름과 비밀번호를 입력해주세요'; return; }
+      const btn = document.getElementById('login-btn');
+      btn.textContent = '로그인 중...'; btn.disabled = true;
+      try {
+        await signInWithEmailAndPassword(auth, name + SUFFIX, pw);
+      } catch {
+        err.textContent = '이름 또는 비밀번호가 틀렸어요 😢';
+        btn.textContent = '들어가기 →'; btn.disabled = false;
+      }
+    });
+    document.getElementById('login-pw').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('login-btn').click();
+    });
+    document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
+  </script>
+</body>
+</html>
